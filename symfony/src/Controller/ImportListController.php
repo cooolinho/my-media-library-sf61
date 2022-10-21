@@ -24,12 +24,11 @@ class ImportListController extends AbstractController
     protected FilesReaderService $filesReaderService;
 
     public function __construct(
-        AdminUrlGenerator      $adminUrlGenerator,
-        EpisodeRepository      $episodeRepository,
+        AdminUrlGenerator $adminUrlGenerator,
+        EpisodeRepository $episodeRepository,
         EntityManagerInterface $entityManager,
-        FilesReaderService     $filesReaderService,
-    )
-    {
+        FilesReaderService $filesReaderService,
+    ) {
         $this->adminUrlGenerator = $adminUrlGenerator;
         $this->episodeRepository = $episodeRepository;
         $this->entityManager = $entityManager;
@@ -38,7 +37,7 @@ class ImportListController extends AbstractController
 
     /**
      * make list on filesystem
-     * find . -mindepth 0 -maxdepth 2 -printf '%M %u %g %p\n' >> list.txt
+     * find . -mindepth 0 -maxdepth 2 -printf '%M %u %g %p\n' >> list.txt.
      */
     #[Route('/import/list/{tvShowId}', name: 'app_import_list')]
     public function index(Request $request, TvShowRepository $tvShowRepository): Response

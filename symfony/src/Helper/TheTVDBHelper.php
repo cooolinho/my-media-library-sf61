@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Helper;
 
 use App\Entity\Episode;
 use App\Entity\TvShow;
-use App\Model\TheTVDB\Schema\EpisodeBaseRecord;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\EpisodeBaseRecord;
 
 class TheTVDBHelper
 {

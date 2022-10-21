@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\TheTVDB\Response;
+namespace Cooolinho\Bundle\TVDBApiBundle\Model\Response;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\ResponseInterface;

@@ -97,7 +97,7 @@ class TvShow
             return $episode->getSeasonNumber() === $seasonNumber && $episode->getNumber() === $number;
         });
 
-        return $episodes->count() === 1 ? $episodes->first() : null;
+        return 1 === $episodes->count() ? $episodes->first() : null;
     }
 
     public function getFilesystemDirectory(): string
@@ -110,8 +110,8 @@ class TvShow
         $seasons = [];
         foreach ($this->getEpisodes() as $episode) {
             $seasons[$episode->getSeasonNumber()][] = $episode;
-
         }
+
         return $seasons;
     }
 
@@ -120,9 +120,10 @@ class TvShow
         $owned = 0;
         foreach ($this->getEpisodes() as $episode) {
             if ($episode->isOwned()) {
-                $owned++;
+                ++$owned;
             }
         }
+
         return $owned;
     }
 
@@ -150,7 +151,7 @@ class TvShow
         /** @var Episode $episode */
         foreach ($seasons[$seasonNumber] as $episode) {
             if ($episode->isOwned()) {
-                $owned++;
+                ++$owned;
             }
         }
 

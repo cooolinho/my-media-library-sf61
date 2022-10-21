@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Controller\Admin\DashboardController;
 use App\Form\TvShowSearchFormType;
-use App\Model\TheTVDB\Search;
-use App\Service\TheTVDB\SearchApiService;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Search;
+use Cooolinho\Bundle\TVDBApiBundle\Service\SearchService;
 use Doctrine\Common\Collections\ArrayCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,10 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchTvShowController extends AbstractController
 {
-    protected SearchApiService $searchApi;
+    protected SearchService $searchApi;
     protected AdminUrlGenerator $adminUrlGenerator;
 
-    public function __construct(SearchApiService $searchApi, AdminUrlGenerator $adminUrlGenerator)
+    public function __construct(SearchService $searchApi, AdminUrlGenerator $adminUrlGenerator)
     {
         $this->searchApi = $searchApi;
         $this->adminUrlGenerator = $adminUrlGenerator;

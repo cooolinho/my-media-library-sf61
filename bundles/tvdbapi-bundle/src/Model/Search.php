@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\TheTVDB;
+namespace Cooolinho\Bundle\TVDBApiBundle\Model;
 
 class Search
 {

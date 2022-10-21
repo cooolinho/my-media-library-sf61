@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -23,9 +25,8 @@ class FilesReaderService
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        ParameterBagInterface  $parameterBag,
-    )
-    {
+        ParameterBagInterface $parameterBag,
+    ) {
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
 
@@ -44,7 +45,7 @@ class FilesReaderService
 
     public function readTvShowDirectory(TvShow $tvShow): void
     {
-        $pathOnFilesystem = $this->parameterBag->get('tvshow.filesystem.base_directory') . $tvShow->getFilesystemDirectory();
+        $pathOnFilesystem = $this->parameterBag->get('tvshow.filesystem.base_directory').$tvShow->getFilesystemDirectory();
         $files = $this->getFileList($pathOnFilesystem);
 
         /** @var SplFileInfo $file */
@@ -52,9 +53,9 @@ class FilesReaderService
             preg_match(self::REGEX_SEASON, $file->getRelativePathname(), $matchesSeason);
             preg_match(self::REGEX_EPISODE, $file->getRelativePathname(), $matchesEpisode);
 
-            if (count($matchesSeason) === 2 && count($matchesEpisode) === 2) {
-                $seasonNumber = (int)$matchesSeason[1];
-                $episodeNumber = (int)$matchesEpisode[1];
+            if (2 === count($matchesSeason) && 2 === count($matchesEpisode)) {
+                $seasonNumber = (int) $matchesSeason[1];
+                $episodeNumber = (int) $matchesEpisode[1];
 
                 if (($episode = $tvShow->getEpisodeBySeasonAndNumber($seasonNumber, $episodeNumber)) && !$episode->isOwned()) {
                     $episode->setIsOwned(true);

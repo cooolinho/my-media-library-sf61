@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\TheTVDB\Schema;
+namespace Cooolinho\Bundle\TVDBApiBundle\Model\Schema;
 
 class EpisodeBaseRecord extends BaseSchema
 {

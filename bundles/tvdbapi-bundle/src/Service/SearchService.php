@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service\TheTVDB;
+namespace Cooolinho\Bundle\TVDBApiBundle\Service;
 
-use App\Model\TheTVDB\Response\SearchResponse;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Response\SearchResponse;
 
-class SearchApiService extends AbstractApiService
+class SearchService extends AbstractService
 {
     public function search(string $query, string $type, int $limit = 100): SearchResponse
     {

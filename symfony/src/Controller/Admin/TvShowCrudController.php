@@ -30,12 +30,11 @@ class TvShowCrudController extends AbstractCrudController
     protected AdminUrlGenerator $adminUrlGenerator;
 
     public function __construct(
-        FilesReaderService     $filesystemReader,
+        FilesReaderService $filesystemReader,
         EntityManagerInterface $entityManager,
-        ParameterBagInterface  $parameterBag,
-        AdminUrlGenerator      $adminUrlGenerator
-    )
-    {
+        ParameterBagInterface $parameterBag,
+        AdminUrlGenerator $adminUrlGenerator
+    ) {
         $this->filesystemReader = $filesystemReader;
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;

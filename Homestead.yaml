@@ -10,13 +10,15 @@ keys:
 
 folders:
     - map: 'C:\Users\deepe\Projekte\my-media-library-sf61\bundles'
-      to: /home/vagrant/my-media-library/bundles
+      to: /home/vagrant/my-media-library-sf61/bundles
     - map: 'C:\Users\deepe\Projekte\my-media-library-sf61\symfony'
-      to: /home/vagrant/my-media-library/symfony
+      to: /home/vagrant/my-media-library-sf61/symfony
+    - map: 'C:\Users\deepe\Projekte\my-media-library-sf61\tools'
+      to: /home/vagrant/my-media-library-sf61/tools
 
 sites:
     - map: my-media-library.test
-      to: /home/vagrant/my-media-library/symfony/public
+      to: /home/vagrant/my-media-library-sf61/symfony/public
 
 databases:
     - my-media-library

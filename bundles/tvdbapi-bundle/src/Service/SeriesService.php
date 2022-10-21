@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service\TheTVDB;
+namespace Cooolinho\Bundle\TVDBApiBundle\Service;
 
-use App\Model\TheTVDB\Response\SeriesEpisodesResponse;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Response\SeriesEpisodesResponse;
 
-class SeriesApiService extends AbstractApiService
+class SeriesService extends AbstractService
 {
     public function getSeriesEpisodes(int $id, string $seasonType = 'default'): SeriesEpisodesResponse
     {

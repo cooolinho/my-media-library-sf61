@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Model\TheTVDB\Response;
+namespace Cooolinho\Bundle\TVDBApiBundle\Model\Response;
 
-use App\Model\TheTVDB\Schema\SearchResult;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\SearchResult;
 
 class SearchResponse
 {

@@ -1,24 +1,25 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Service;
 
 use App\Entity\TvShow;
 use App\Helper\TheTVDBHelper;
-use App\Model\TheTVDB\Schema\EpisodeBaseRecord;
-use App\Service\TheTVDB\SeriesApiService;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\EpisodeBaseRecord;
+use Cooolinho\Bundle\TVDBApiBundle\Service\SeriesService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ImportService
 {
-    protected SeriesApiService $api;
+    protected SeriesService $api;
     protected EntityManagerInterface $entityManager;
 
     public function __construct(
-        SeriesApiService       $api,
+        SeriesService $api,
         EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
         $this->api = $api;
         $this->entityManager = $entityManager;
     }
@@ -32,14 +33,12 @@ class ImportService
     }
 
     /**
-     * @param TvShow $tvShow
      * @param ArrayCollection<int, EpisodeBaseRecord> $episodes
-     * @return void
      */
     private function importEpisodes(TvShow $tvShow, ArrayCollection $episodes): void
     {
         foreach ($episodes as $episodeBaseRecord) {
-            if ($episodeBaseRecord->seasonNumber === 0) {
+            if (0 === $episodeBaseRecord->seasonNumber) {
                 continue;
             }
 

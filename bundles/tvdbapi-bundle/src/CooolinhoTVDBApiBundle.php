@@ -7,7 +7,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class CooolinhoTVDBApiBundle extends Bundle
 {
-
     public function getContainerExtension(): CooolinhoTVDBApiExtension
     {
         return new CooolinhoTVDBApiExtension();

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace Cooolinho\Bundle\TVDBApiBundle\Api;
 
-use App\Model\TheTVDB\Response\ApiResponse;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Response\ApiResponse;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
@@ -19,7 +19,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class TheTVDBApiService implements ApiServiceInterface
+class TVDBApi implements ApiInterface
 {
     private const SESSION_AUTH_TOKEN = 'thetvdb_auth_token';
 
