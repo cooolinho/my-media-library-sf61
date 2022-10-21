@@ -33,7 +33,9 @@ class ImportService
     }
 
     /**
-     * @param ArrayCollection<int, EpisodeBaseRecord> $episodes
+     * @param TvShow $tvShow
+     * @param ArrayCollection<int, EpisodeBaseRecord>  $episodes
+     * @return void
      */
     private function importEpisodes(TvShow $tvShow, ArrayCollection $episodes): void
     {
