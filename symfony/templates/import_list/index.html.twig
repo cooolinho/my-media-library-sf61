@@ -1,0 +1,14 @@
+{% extends '@!EasyAdmin/page/content.html.twig' %}
+{% form_theme form '@!EasyAdmin/crud/form_theme.html.twig' %}
+
+{% block title %}Hello SearchTvShowController!{% endblock %}
+
+{% block main %}
+    <h1>{{ tvShow.name }} | Liste importieren</h1>
+    <div class="alert alert-primary" role="alert">
+        <p class="mb-0">find . -mindepth 0 -maxdepth 2 -printf '%M %u %g %p\n' >> list.txt</p>
+    </div>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

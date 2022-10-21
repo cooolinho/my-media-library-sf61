@@ -1,0 +1,42 @@
+{% extends '@!EasyAdmin/page/content.html.twig' %}
+{% form_theme form '@!EasyAdmin/crud/form_theme.html.twig' %}
+
+{% block title %}Hello SearchTvShowController!{% endblock %}
+
+{% block main %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    <hr>
+    {% if searchResults|length > 0 %}
+        <div class="row">
+            {% for result in searchResults %}
+                <div class="col-4">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ result.image_url }}" class="img-fluid rounded-start"
+                                     alt="{{ result.translation('deu') }}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ result.translation('deu') }}</h5>
+                                    {% set url = ea_url()
+                                        .setDashboard('App\\Controller\\Admin\\DashboardController')
+                                        .setController('App\\Controller\\Admin\\TvShowCrudController')
+                                        .setAction('new')
+                                        .set('name', result.translation('deu'))
+                                        .set('theTvDbId', result.tvdb_id)
+                                        .generateUrl() %}
+                                    <a href="{{ url }}" class="btn btn-primary">Hinzufügen</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        Keine Einträge gefunden
+    {% endif %}
+{% endblock %}

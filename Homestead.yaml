@@ -1,0 +1,32 @@
+ip: 192.168.56.56
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: my-media-library-sf61
+hostname: my-media-library.test
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: 'C:\Users\deepe\Projekte\my-media-library-sf61\bundles'
+      to: /home/vagrant/my-media-library/bundles
+    - map: 'C:\Users\deepe\Projekte\my-media-library-sf61\symfony'
+      to: /home/vagrant/my-media-library/symfony
+
+sites:
+    - map: my-media-library.test
+      to: /home/vagrant/my-media-library/symfony/public
+
+databases:
+    - my-media-library
+
+features:
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+services:
+    - enabled: [mysql]

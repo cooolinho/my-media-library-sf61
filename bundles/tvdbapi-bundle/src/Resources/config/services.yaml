@@ -1,0 +1,14 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Cooolinho\Bundle\TVDBApiBundle\:
+        resource: '../../../src/*'
+        exclude: '../../../src/{DependencyInjection,Resources,Tests}'
+
+    Cooolinho\Bundle\TVDBApiBundle\Controller\:
+        resource: '../../../src/Controller'
+        tags: ['controller.service_arguments']
