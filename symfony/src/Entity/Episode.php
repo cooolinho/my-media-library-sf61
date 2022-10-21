@@ -8,12 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EpisodeRepository::class)]
 class Episode
 {
-    public const EPISODE_TYPE_OFFICIAL = 'official';
-    public const EPISODE_TYPE_ABSOLUTE = 'alternate';
-    public const EPISODE_TYPE_REGIONAL = 'regional';
-    public const EPISODE_TYPE_DVD = 'dvd';
-    public const EPISODE_TYPE_DEFAULT = 'default';
-
     public const id = 'id';
     public const name = 'name';
     public const theTvDbId = 'theTvDbId';

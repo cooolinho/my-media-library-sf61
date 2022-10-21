@@ -9,6 +9,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class ApiResponse
 {
+    private ?ResponseInterface $response;
     private array $data = [];
     private string $status = '';
 
@@ -17,14 +18,21 @@ final class ApiResponse
         if ($response) {
             $this->handleResponse($response);
         }
+
+        $this->response = $response;
     }
 
     public function handleResponse(ResponseInterface $response): ApiResponse
     {
+        $this->response = $response;
+
         if (Response::HTTP_OK === $response->getStatusCode()) {
             $content = $response->toArray();
-            $this->data = $content['data'];
-            $this->status = $content['status'];
+            foreach (['data', 'status'] as $key) {
+                if (isset($content[$key])) {
+                    $this->$key = $content[$key];
+                }
+            }
         }
 
         return $this;
@@ -52,5 +60,10 @@ final class ApiResponse
         $this->status = $status;
 
         return $this;
+    }
+
+    public function getOriginalResponse(): ?ResponseInterface
+    {
+        return $this->response;
     }
 }

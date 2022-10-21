@@ -73,7 +73,7 @@ class FilesReaderService
 
         [$matchesSeasonEpisodes, $matchesSeasons, $matchesEpisodes] = $matches;
         foreach ($matchesSeasonEpisodes as $key => $matchesEpisode) {
-            $episode = $tvShow->getEpisodeBySeasonAndNumber($matchesSeasons[$key], $matchesEpisodes[$key]);
+            $episode = $tvShow->getEpisodeBySeasonAndNumber((int) $matchesSeasons[$key], (int) $matchesEpisodes[$key]);
 
             if ($episode && !$episode->isOwned()) {
                 $episode->setIsOwned();

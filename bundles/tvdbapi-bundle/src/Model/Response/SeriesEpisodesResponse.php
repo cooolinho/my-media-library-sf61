@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace Cooolinho\Bundle\TVDBApiBundle\Model\Response;
 
+use Cooolinho\Bundle\TVDBApiBundle\Model\Response\Traits\UseLinksTrait;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\EpisodeBaseRecord;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class SeriesEpisodesResponse
 {
+    use UseLinksTrait;
+
     protected ApiResponse $response;
 
     public function __construct(ApiResponse $response)
     {
         $this->response = $response;
+        if ($response->getOriginalResponse()) {
+            $this->setLinks($response->getOriginalResponse());
+        }
     }
 
     public function getSeries(): array

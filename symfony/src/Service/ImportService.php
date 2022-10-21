@@ -24,11 +24,21 @@ class ImportService
         $this->entityManager = $entityManager;
     }
 
-    public function importEpisodesFromTheTVDB(TvShow $tvShow): void
+    public function importEpisodesFromTheTVDB(TvShow $tvShow, int $page = 0): void
     {
         if ($tvShow->getTheTvDbId()) {
-            $response = $this->api->getSeriesEpisodes($tvShow->getTheTvDbId());
+            $response = $this->api->getSeriesEpisodes(
+                $tvShow->getTheTvDbId(),
+                SeriesService::SEASON_TYPE_DEFAULT,
+                SeriesService::LANG_DE,
+                $page
+            );
+
             $this->importEpisodes($tvShow, $response->getEpisodes());
+
+            if ($response->getNextPageNr() > $response->getSelfPageNr()) {
+                $this->importEpisodesFromTheTVDB($tvShow, $response->getNextPageNr());
+            }
         }
     }
 
