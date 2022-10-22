@@ -13,9 +13,12 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class FilesReaderService
 {
+    private const PLACEHOLDER_TVSHOW_NAME = '##TVSHOWNAME##';
+
     private const REGEX_SEASON = '/S([0-9]{2})/';
     private const REGEX_EPISODE = '/E([0-9]{2,3})/';
     public const REGEX_SEASON_EPISODE = '/S([0-9]{2})E([0-9]{2,3})/';
+    public const REGEX_TVSHOW_SEASON_EPISODE = '/('.self::PLACEHOLDER_TVSHOW_NAME.').*?S([0-9]{2})E([0-9]{2,3})/';
 
     protected Filesystem $fs;
     protected Finder $finder;
@@ -69,11 +72,17 @@ class FilesReaderService
 
     public function matchEpisodesFromText(TvShow $tvShow, string $text): void
     {
-        preg_match_all(self::REGEX_SEASON_EPISODE, $text, $matches);
+        $regex = str_replace(
+            self::PLACEHOLDER_TVSHOW_NAME,
+            $tvShow->getName(),
+            self::REGEX_TVSHOW_SEASON_EPISODE
+        );
 
-        [$matchesSeasonEpisodes, $matchesSeasons, $matchesEpisodes] = $matches;
-        foreach ($matchesSeasonEpisodes as $key => $matchesEpisode) {
-            $episode = $tvShow->getEpisodeBySeasonAndNumber((int) $matchesSeasons[$key], (int) $matchesEpisodes[$key]);
+        preg_match_all($regex, $text, $matches);
+
+        [$matchesAll, , $groupSeasonNumbers, $groupEpisodeNumbers] = $matches;
+        foreach ($matchesAll as $key => $matchesEpisode) {
+            $episode = $tvShow->getEpisodeBySeasonAndNumber((int) $groupSeasonNumbers[$key], (int) $groupEpisodeNumbers[$key]);
 
             if ($episode && !$episode->isOwned()) {
                 $episode->setIsOwned();

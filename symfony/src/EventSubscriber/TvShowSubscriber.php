@@ -31,6 +31,6 @@ class TvShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $this->importService->importEpisodesFromTheTVDB($tvShow);
+        $this->importService->importTvShowDataFromTheTVDB($tvShow);
     }
 }

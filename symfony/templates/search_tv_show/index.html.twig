@@ -27,7 +27,9 @@
                                         .setAction('new')
                                         .set('name', result.translation('deu'))
                                         .set('theTvDbId', result.tvdb_id)
+                                        .set('slug', result.slug)
                                         .generateUrl() %}
+
                                     <a href="{{ url }}" class="btn btn-primary">Hinzufügen</a>
                                 </div>
                             </div>

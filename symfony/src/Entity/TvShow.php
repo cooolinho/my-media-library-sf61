@@ -12,6 +12,7 @@ class TvShow
 {
     public const id = 'id';
     public const name = 'name';
+    public const slug = 'slug';
     public const theTvDbId = 'theTvDbId';
     public const episodes = 'episodes';
 
@@ -28,6 +29,18 @@ class TvShow
 
     #[ORM\OneToMany(mappedBy: 'tvshow', targetEntity: Episode::class, orphanRemoval: true)]
     private Collection $episodes;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $slug = null;
+
+    #[ORM\Column(length: 15, nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\Column(length: 4, nullable: true)]
+    private ?string $year = null;
 
     public function __construct()
     {
@@ -156,5 +169,53 @@ class TvShow
         }
 
         return $owned;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getYear(): ?string
+    {
+        return $this->year;
+    }
+
+    public function setYear(?string $year): self
+    {
+        $this->year = $year;
+
+        return $this;
     }
 }

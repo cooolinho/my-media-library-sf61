@@ -22,27 +22,30 @@ class ImportListController extends AbstractController
     protected EpisodeRepository $episodeRepository;
     protected EntityManagerInterface $entityManager;
     protected FilesReaderService $filesReaderService;
+    protected TvShowRepository $tvShowRepository;
 
     public function __construct(
         AdminUrlGenerator $adminUrlGenerator,
         EpisodeRepository $episodeRepository,
         EntityManagerInterface $entityManager,
         FilesReaderService $filesReaderService,
+        TvShowRepository $tvShowRepository
     ) {
         $this->adminUrlGenerator = $adminUrlGenerator;
         $this->episodeRepository = $episodeRepository;
         $this->entityManager = $entityManager;
         $this->filesReaderService = $filesReaderService;
+        $this->tvShowRepository = $tvShowRepository;
     }
 
     /**
      * make list on filesystem
      * find . -mindepth 0 -maxdepth 2 -printf '%M %u %g %p\n' >> list.txt.
      */
-    #[Route('/import/list/{tvShowId}', name: 'app_import_list')]
-    public function index(Request $request, TvShowRepository $tvShowRepository): Response
+    #[Route('/import/list/tvshow/{tvShowId}', name: 'app_import_tvshow_list')]
+    public function importTvShowList(Request $request): Response
     {
-        $tvShow = $tvShowRepository->find($request->get('tvShowId'));
+        $tvShow = $this->tvShowRepository->find($request->get('tvShowId'));
 
         if (!$tvShow) {
             return $this->redirect($request->query->get('referer'));
@@ -53,7 +56,7 @@ class ImportListController extends AbstractController
             'action' => $this->adminUrlGenerator
                 ->setController(self::class)
                 ->setDashboard(DashboardController::class)
-                ->setRoute('app_import_list', ['tvShowId' => $tvShow->getId()])
+                ->setRoute('app_import_tvshow_list', ['tvShowId' => $tvShow->getId()])
                 ->generateUrl(),
         ]);
 
@@ -69,9 +72,41 @@ class ImportListController extends AbstractController
                 ->generateUrl());
         }
 
-        return $this->render('import_list/index.html.twig', [
-            'controller_name' => 'ImportListController',
+        return $this->render('import_list/tvshow.html.twig', [
             'tvShow' => $tvShow,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/import/list/all', name: 'app_import_all_list')]
+    public function importAllList(Request $request): Response
+    {
+        $form = $this->createForm(ImportListFormType::class, [], [
+            'method' => 'POST',
+            'action' => $this->adminUrlGenerator
+                ->setController(self::class)
+                ->setDashboard(DashboardController::class)
+                ->setRoute('app_import_all_list')
+                ->generateUrl(),
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tvShows = $this->tvShowRepository->findAll();
+            $fileData = $form->get('text')->getData();
+
+            foreach ($tvShows as $tvShow) {
+                $this->filesReaderService->matchEpisodesFromText($tvShow, $fileData);
+            }
+
+            return $this->redirect($this->adminUrlGenerator
+                ->setDashboard(DashboardController::class)
+                ->setController(TvShowCrudController::class)
+                ->setAction(Action::INDEX)
+                ->generateUrl());
+        }
+
+        return $this->render('import_list/all.html.twig', [
             'form' => $form->createView(),
         ]);
     }

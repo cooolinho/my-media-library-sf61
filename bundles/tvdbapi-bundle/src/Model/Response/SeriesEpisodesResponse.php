@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cooolinho\Bundle\TVDBApiBundle\Model\Response;
 
 use Cooolinho\Bundle\TVDBApiBundle\Model\Response\Traits\UseLinksTrait;
-use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\EpisodeBaseRecord;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\SeriesBaseRecord;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class SeriesEpisodesResponse
@@ -22,22 +22,13 @@ class SeriesEpisodesResponse
         }
     }
 
-    public function getSeries(): array
+    public function getSeries(): SeriesBaseRecord
     {
-        return $this->response->getData()['series'];
+        return new SeriesBaseRecord($this->response->getData());
     }
 
-    /**
-     * @return ArrayCollection<int, EpisodeBaseRecord>
-     */
     public function getEpisodes(): ArrayCollection
     {
-        $episodes = new ArrayCollection();
-
-        foreach ($this->response->getData()['episodes'] as $episodeData) {
-            $episodes->add(new EpisodeBaseRecord($episodeData));
-        }
-
-        return $episodes;
+        return $this->getSeries()->getEpisodes();
     }
 }

@@ -1,0 +1,14 @@
+{% extends '@!EasyAdmin/page/content.html.twig' %}
+{% form_theme form '@!EasyAdmin/crud/form_theme.html.twig' %}
+
+{% block title %}Hello SearchTvShowController!{% endblock %}
+
+{% block main %}
+    <h1>Liste importieren</h1>
+    <div class="alert alert-primary" role="alert">
+        find . -mindepth 0 -maxdepth 3 -type f \( -iname \*.mkv -o -iname \*.avi -o -iname \*.mp4 \) -printf '%p\r\n' >> list.txt
+    </div>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}
