@@ -10,6 +10,12 @@
         <th>Episoden Im Besitz:</th>
         <td>{{ tvshow.countEpisodesOwned }}</td>
     </tr>
+    <tr>
+        <th>Warez Links</th>
+        <td>
+            {{ component('warez_links', { 'tvshow': tvshow.name }) }}
+        </td>
+    </tr>
     </tbody>
 </table>
 <div class="accordion" id="accordionExample">

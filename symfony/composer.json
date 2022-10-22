@@ -16,6 +16,7 @@
         "symfony/framework-bundle": "6.1.*",
         "symfony/http-client": "6.1.*",
         "symfony/runtime": "6.1.*",
+        "symfony/ux-twig-component": "^2.4",
         "symfony/yaml": "6.1.*"
     },
     "require-dev": {
