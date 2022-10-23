@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\TvShow;
 use App\Entity\WarezLink;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -29,5 +30,11 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('TV Shows', 'fas fa-list', TvShow::class);
         yield MenuItem::linkToCrud('Warez Links', 'fas fa-list', WarezLink::class);
+    }
+
+    public function configureCrud(): Crud
+    {
+        return parent::configureCrud()
+            ->overrideTemplate('layout', 'admin/layout.html.twig');
     }
 }

@@ -14,6 +14,7 @@ class Episode
     public const seasonNumber = 'seasonNumber';
     public const number = 'number';
     public const isOwned = 'isOwned';
+    public const tvshow_id = 'tvshow';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

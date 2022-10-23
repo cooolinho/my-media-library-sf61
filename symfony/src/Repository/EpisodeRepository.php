@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Episode;
+use App\Entity\TvShow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,6 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EpisodeRepository extends ServiceEntityRepository
 {
+    private const KEY_EPISODES = 'episodes';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Episode::class);
@@ -39,28 +43,63 @@ class EpisodeRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Episode[] Returns an array of Episode objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getCountOwned(): int
+    {
+        try {
+            $result = $this->createQueryBuilder('e')
+                ->select('count(e.id) as '.self::KEY_EPISODES)
+                ->andWhere('e.'.Episode::isOwned.' = :isOwned')
+                ->setParameter('isOwned', true)
+                ->getQuery()
+                ->getOneOrNullResult();
 
-//    public function findOneBySomeField($value): ?Episode
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+            return $result[self::KEY_EPISODES];
+        } catch (NonUniqueResultException $e) {
+            return 0;
+        }
+    }
+
+    public function getCountAll(): int
+    {
+        try {
+            $result = $this->createQueryBuilder('e')
+                ->select('count(e.id) as '.self::KEY_EPISODES)
+                ->getQuery()
+                ->getOneOrNullResult();
+
+            return $result[self::KEY_EPISODES];
+        } catch (NonUniqueResultException $e) {
+            return 0;
+        }
+    }
+
+    public function getByTvShow(TvShow $tvShow)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.'.Episode::tvshow_id.' = :tvshowId')
+            ->setParameter('tvshowId', $tvShow->getId())
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getCountByTvShow(TvShow $tvShow): int
+    {
+        return count($this->getByTvShow($tvShow));
+    }
+
+    public function getOwnedByTvShow(TvShow $tvShow)
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.'.Episode::tvshow_id.' = :tvshowId')
+            ->andWhere('e.'.Episode::isOwned.' = :isOwned')
+            ->setParameter('tvshowId', $tvShow->getId())
+            ->setParameter('isOwned', true)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getCountOwnedByTvShow(TvShow $tvShow): int
+    {
+        return count($this->getOwnedByTvShow($tvShow));
+    }
 }

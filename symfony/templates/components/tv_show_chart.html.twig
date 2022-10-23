@@ -1,0 +1,12 @@
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h2 class="card-title">TV Shows</h2>
+        <h4 class="card-subtitle mb-2 text-muted">{{ this.countAll }} Im Besitz</h4>
+        <h4 class="card-subtitle mb-2 text-muted">{{ this.countCompleted }} Vollständig</h4>
+
+        <p class="card-text">
+            {{ render_chart(this.chart) }}
+        </p>
+        <a href="{{ this.adminCrudIndexUrl }}" class="card-link">Zur Übersicht</a>
+    </div>
+</div>
