@@ -7,8 +7,6 @@ use App\Entity\TvShow;
 use App\Repository\TvShowRepository;
 use App\Service\FilesReaderService;
 use App\Service\ImportService;
-use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\ArtworkType;
-use Cooolinho\Bundle\TVDBApiBundle\Service\SeriesService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -35,13 +33,12 @@ class TvShowCrudController extends AbstractCrudController
     protected ImportService $importService;
 
     public function __construct(
-        FilesReaderService     $filesystemReader,
+        FilesReaderService $filesystemReader,
         EntityManagerInterface $entityManager,
-        ParameterBagInterface  $parameterBag,
-        AdminUrlGenerator      $adminUrlGenerator,
-        ImportService          $importService,
-    )
-    {
+        ParameterBagInterface $parameterBag,
+        AdminUrlGenerator $adminUrlGenerator,
+        ImportService $importService,
+    ) {
         $this->filesystemReader = $filesystemReader;
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;

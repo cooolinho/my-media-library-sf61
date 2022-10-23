@@ -13,21 +13,17 @@ final class ArtworkComponent
 {
     #[ExposeInTemplate]
     public ?int $tvshow_id = null;
-    protected SeriesService $seriesService;
-    protected TvShowRepository $tvShowRepository;
+    private SeriesService $seriesService;
+    private TvShowRepository $tvShowRepository;
 
     public function __construct(
         TvShowRepository $tvShowRepository,
-        SeriesService    $seriesService
-    )
-    {
+        SeriesService $seriesService
+    ) {
         $this->tvShowRepository = $tvShowRepository;
         $this->seriesService = $seriesService;
     }
 
-    /**
-     * @return array
-     */
     public function getMedia(): array
     {
         $media = [];

@@ -49,165 +49,111 @@ class ArtworkType extends BaseSchema
     public int $thumbWidth = 0;
     public int $width = 0;
 
-    /**
-     * @return int
-     */
     public function getHeight(): int
     {
         return $this->height;
     }
 
-    /**
-     * @param int $height
-     * @return ArtworkType
-     */
     public function setHeight(int $height): ArtworkType
     {
         $this->height = $height;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return ArtworkType
-     */
     public function setId(int $id): ArtworkType
     {
         $this->id = $id;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getImageFormat(): string
     {
         return $this->imageFormat;
     }
 
-    /**
-     * @param string $imageFormat
-     * @return ArtworkType
-     */
     public function setImageFormat(string $imageFormat): ArtworkType
     {
         $this->imageFormat = $imageFormat;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return ArtworkType
-     */
     public function setName(string $name): ArtworkType
     {
         $this->name = $name;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getRecordType(): string
     {
         return $this->recordType;
     }
 
-    /**
-     * @param string $recordType
-     * @return ArtworkType
-     */
     public function setRecordType(string $recordType): ArtworkType
     {
         $this->recordType = $recordType;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     * @return ArtworkType
-     */
     public function setSlug(string $slug): ArtworkType
     {
         $this->slug = $slug;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getThumbHeight(): int
     {
         return $this->thumbHeight;
     }
 
-    /**
-     * @param int $thumbHeight
-     * @return ArtworkType
-     */
     public function setThumbHeight(int $thumbHeight): ArtworkType
     {
         $this->thumbHeight = $thumbHeight;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getThumbWidth(): int
     {
         return $this->thumbWidth;
     }
 
-    /**
-     * @param int $thumbWidth
-     * @return ArtworkType
-     */
     public function setThumbWidth(int $thumbWidth): ArtworkType
     {
         $this->thumbWidth = $thumbWidth;
+
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getWidth(): int
     {
         return $this->width;
     }
 
-    /**
-     * @param int $width
-     * @return ArtworkType
-     */
     public function setWidth(int $width): ArtworkType
     {
         $this->width = $width;
+
         return $this;
     }
 }
