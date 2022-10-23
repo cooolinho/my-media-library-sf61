@@ -7,6 +7,8 @@ use App\Entity\TvShow;
 use App\Repository\TvShowRepository;
 use App\Service\FilesReaderService;
 use App\Service\ImportService;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\ArtworkType;
+use Cooolinho\Bundle\TVDBApiBundle\Service\SeriesService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -33,12 +35,13 @@ class TvShowCrudController extends AbstractCrudController
     protected ImportService $importService;
 
     public function __construct(
-        FilesReaderService $filesystemReader,
+        FilesReaderService     $filesystemReader,
         EntityManagerInterface $entityManager,
-        ParameterBagInterface $parameterBag,
-        AdminUrlGenerator $adminUrlGenerator,
-        ImportService $importService
-    ) {
+        ParameterBagInterface  $parameterBag,
+        AdminUrlGenerator      $adminUrlGenerator,
+        ImportService          $importService,
+    )
+    {
         $this->filesystemReader = $filesystemReader;
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
@@ -122,16 +125,14 @@ class TvShowCrudController extends AbstractCrudController
         return parent::configureActions($actions);
     }
 
-    public function index(AdminContext $context)
-    {
-        return $this->render('admin/tvshow/page/index.html.twig', parent::index($context)->all());
-    }
-
     public function detail(AdminContext $context): KeyValueStore|Response
     {
         $this->filesystemReader->readTvShowDirectory($context->getEntity()->getInstance());
 
-        return parent::detail($context);
+        return $this->render('admin/tvshow/page/detail.html.twig', array_merge(
+            parent::detail($context)->all(),
+            ['tvshow' => $context->getEntity()->getInstance()]
+        ));
     }
 
     public function createNewFormBuilder(EntityDto $entityDto, KeyValueStore $formOptions, AdminContext $context): FormBuilderInterface
@@ -168,8 +169,7 @@ class TvShowCrudController extends AbstractCrudController
     {
         $redirectUrl = $this->adminUrlGenerator
             ->setController(__CLASS__)
-            ->setDashboard(DashboardController::class)
-        ;
+            ->setDashboard(DashboardController::class);
 
         if (($tvShow = $context->getEntity()->getInstance()) && $tvShow instanceof TvShow) {
             $this->importService->importTvShowDataFromTheTVDB($tvShow);

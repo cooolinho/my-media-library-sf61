@@ -1,0 +1,29 @@
+<div{{ attributes }}>
+    <div class="accordion" id="accordionExample">
+        {% for type, data in this.media %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ type }}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ type }}" aria-expanded="true"
+                            aria-controls="collapse{{ type }}">
+                        {{ data.title }}
+                    </button>
+                </h2>
+                <div id="collapse{{ type }}" class="accordion-collapse collapse" aria-labelledby="heading{{ type }}"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="row">
+                            {% for artwork in data.artworks %}
+                                <div class="col-3">
+                                    <div class="card">
+                                        <img src="{{ artwork.image }}" class="card-img-top" alt="{{ artwork.id }}">
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

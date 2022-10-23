@@ -1,0 +1,7 @@
+{% extends "@!EasyAdmin/crud/detail.html.twig" %}
+
+{% block main %}
+    {{ parent() }}
+
+    {{ component('artwork', { 'tvshow_id': tvshow.id }) }}
+{% endblock %}
