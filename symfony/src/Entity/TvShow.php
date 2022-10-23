@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TvShowRepository;
+use App\Validator\TVDBId;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +25,8 @@ class TvShow
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(unique: true, nullable: true)]
+    #[TVDBId]
     private ?int $theTvDbId = null;
 
     #[ORM\OneToMany(mappedBy: 'tvshow', targetEntity: Episode::class, orphanRemoval: true)]
@@ -130,14 +132,11 @@ class TvShow
 
     public function getCountEpisodesOwned(): int
     {
-        $owned = 0;
-        foreach ($this->getEpisodes() as $episode) {
-            if ($episode->isOwned()) {
-                ++$owned;
-            }
-        }
+        $episodes = $this->getEpisodes()->filter(function (Episode $episode) {
+            return $episode->isOwned();
+        });
 
-        return $owned;
+        return $episodes->count();
     }
 
     public function getCountEpisodesBySeasonNumber(int $seasonNumber): int

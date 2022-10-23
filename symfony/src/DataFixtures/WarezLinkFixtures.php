@@ -17,6 +17,8 @@ class WarezLinkFixtures extends Fixture
     {
         foreach (self::$links as [$name, $url]) {
             $link = new WarezLink();
+            $link->setName($name);
+            $link->setUrl($url);
             $manager->persist($link);
         }
 

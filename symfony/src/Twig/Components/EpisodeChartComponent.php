@@ -46,7 +46,6 @@ final class EpisodeChartComponent
             'labels' => ['Im Besitz', 'Fehlend'],
             'datasets' => [
                 [
-                    'label' => 'My First dataset',
                     'backgroundColor' => ['#92e51d', '#ff6e2b'],
                     'borderColor' => '#ffffff',
                     'data' => [

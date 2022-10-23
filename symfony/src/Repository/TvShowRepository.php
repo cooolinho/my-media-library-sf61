@@ -51,10 +51,10 @@ class TvShowRepository extends ServiceEntityRepository
 
         if (count($allTvShows) > 0) {
             foreach ($allTvShows as $tvShow) {
-                $episodesAll = $this->episodeRepository->getCountByTvShow($tvShow);
-                $episodesOwned = $this->episodeRepository->getCountOwnedByTvShow($tvShow);
+                $episodesAll = $tvShow->getEpisodes()->count();
+                $episodesOwned = $tvShow->getCountEpisodesOwned();
 
-                if ($episodesAll === $episodesOwned) {
+                if ($episodesAll === $episodesOwned && 0 !== $episodesAll) {
                     ++$countComplete;
                 }
             }
@@ -74,6 +74,19 @@ class TvShowRepository extends ServiceEntityRepository
             return $result[self::KEY_TVSHOWS];
         } catch (NonUniqueResultException $e) {
             return 0;
+        }
+    }
+
+    public function findByTheTvDbId(int $theTvDbId): ?TvShow
+    {
+        try {
+            return $this->createQueryBuilder('t')
+                ->where('t.'.TvShow::theTvDbId.' = :theTvDbId')
+                ->setParameter('theTvDbId', $theTvDbId)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
         }
     }
 }

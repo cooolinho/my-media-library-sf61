@@ -15,7 +15,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class TvShowChartComponent
 {
     private ChartBuilderInterface $chartBuilder;
-    private TvShowRepository $tvShowRepository;
     private int $countAll;
     private int $countCompleted;
     private AdminUrlGenerator $adminUrlGenerator;
@@ -26,21 +25,19 @@ final class TvShowChartComponent
         AdminUrlGenerator $adminUrlGenerator
     ) {
         $this->chartBuilder = $chartBuilder;
-        $this->tvShowRepository = $tvShowRepository;
         $this->adminUrlGenerator = $adminUrlGenerator;
 
-        $this->countAll = $this->tvShowRepository->getCountAll();
-        $this->countCompleted = $this->tvShowRepository->getCountComplete();
+        $this->countAll = $tvShowRepository->getCountAll();
+        $this->countCompleted = $tvShowRepository->getCountComplete();
     }
 
     public function getChart(): Chart
     {
         $chart = $this->chartBuilder->createChart(Chart::TYPE_PIE);
         $chart->setData([
-            'labels' => ['Complete', 'Noch offen'],
+            'labels' => ['Vollständig', 'Noch offen'],
             'datasets' => [
                 [
-                    'label' => 'My First dataset',
                     'backgroundColor' => ['#92e51d', '#ff6e2b'],
                     'borderColor' => '#ffffff',
                     'data' => [

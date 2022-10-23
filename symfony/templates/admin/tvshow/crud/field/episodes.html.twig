@@ -1,4 +1,5 @@
 {% set tvshow = entity.instance %}
+
 <div class="row">
     <div class="col-8">
         <div class="accordion" id="accordionExample">
@@ -52,18 +53,8 @@
         </div>
     </div>
     <div class="col-4">
-        <table class="table">
-            <thead>
-            <tbody>
-            <tr>
-                <th>Warez Links</th>
-                <td>
-                    {{ component('warez_links', { 'tvshow': tvshow.name }) }}
-                </td>
-            </tr>
-            </tbody>
-        </table>
         {{ component('episode_chart', {tvshow_id: tvshow.id}) }}
-
+        <hr>
+        {{ component('warez_links', { 'tvshow': tvshow.name }) }}
     </div>
 </div>
