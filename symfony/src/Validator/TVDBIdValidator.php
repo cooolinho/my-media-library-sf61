@@ -24,7 +24,11 @@ class TVDBIdValidator extends ConstraintValidator
 
         $tvShow = $this->tvShowRepository->findByTheTvDbId($value);
 
-        if ($tvShow) {
+        if ($tvShow === $this->context->getObject()) {
+            return;
+        }
+
+        if ($tvShow !== $this->context->getObject()) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
                 ->setParameter('{{ tvshow }}', $tvShow->getName())

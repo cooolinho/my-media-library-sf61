@@ -23,7 +23,7 @@ class WarezLinksComponent
         $links = [];
 
         foreach ($this->warezLinkRepository->findAll() as $link) {
-            $links[] = $link->setUrl(sprintf($link->getUrl(), urlencode($this->tvshow)));
+            $links[] = $link->setUrl(sprintf($link->getUrl(), str_replace(' ', '-', strtolower($this->tvshow))));
         }
 
         return $links;

@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Controller\ImportListController;
 use App\Entity\TvShow;
-use App\Repository\TvShowRepository;
 use App\Service\FilesReaderService;
 use App\Service\ImportService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,12 +32,13 @@ class TvShowCrudController extends AbstractCrudController
     protected ImportService $importService;
 
     public function __construct(
-        FilesReaderService $filesystemReader,
+        FilesReaderService     $filesystemReader,
         EntityManagerInterface $entityManager,
-        ParameterBagInterface $parameterBag,
-        AdminUrlGenerator $adminUrlGenerator,
-        ImportService $importService,
-    ) {
+        ParameterBagInterface  $parameterBag,
+        AdminUrlGenerator      $adminUrlGenerator,
+        ImportService          $importService,
+    )
+    {
         $this->filesystemReader = $filesystemReader;
         $this->entityManager = $entityManager;
         $this->parameterBag = $parameterBag;
@@ -94,7 +94,7 @@ class TvShowCrudController extends AbstractCrudController
             ->createAsGlobalAction()
             ->linkToCrudAction('redirectToImportEpisodesAction');
 
-        $imporTvShowListAction = Action::new(
+        $importTvShowListAction = Action::new(
             'app_import_tvshow_list',
             'Liste importieren',
             'fas fa-file'
@@ -113,7 +113,7 @@ class TvShowCrudController extends AbstractCrudController
         $actions->add(Crud::PAGE_INDEX, $globalImportAllEpisodesAction);
         $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
 
-        $actions->add(Crud::PAGE_DETAIL, $imporTvShowListAction);
+        $actions->add(Crud::PAGE_DETAIL, $importTvShowListAction);
         $actions->add(Crud::PAGE_DETAIL, $globalSearchAction);
         $actions->add(Crud::PAGE_DETAIL, $importEpisodesAction);
 
@@ -162,26 +162,38 @@ class TvShowCrudController extends AbstractCrudController
             ->generateUrl());
     }
 
-    public function redirectToImportEpisodesAction(AdminContext $context, TvShowRepository $tvShowRepository): RedirectResponse
+    public function redirectToImportEpisodesAction(AdminContext $context): RedirectResponse
     {
         $redirectUrl = $this->adminUrlGenerator
             ->setController(__CLASS__)
             ->setDashboard(DashboardController::class);
 
-        if (($tvShow = $context->getEntity()->getInstance()) && $tvShow instanceof TvShow) {
-            $this->importService->importTvShowDataFromTheTVDB($tvShow);
-            $redirectUrl
-                ->setAction(Action::DETAIL)
-                ->setEntityId($tvShow->getId());
-        } else {
-            foreach ($tvShowRepository->findAll() as $tvShow) {
-                $this->importService->importTvShowDataFromTheTVDB($tvShow);
-            }
+        $tvShow = $this->importEpisodesByContext($context);
 
-            $redirectUrl
-                ->setAction(Action::INDEX);
+        return $this->redirect($redirectUrl
+            ->setAction($tvShow ? Action::DETAIL : Action::INDEX)
+            ->setEntityId($tvShow?->getId())
+            ->generateUrl());
+    }
+
+    private function importEpisodesByContext(AdminContext $context): ?TvShow
+    {
+        if ($this->isActionOnDetailPage($context)) {
+            $tvShow = $context->getEntity()->getInstance();
+            $this->importService->importTvShowDataFromTheTVDB($tvShow);
+
+            return $tvShow;
         }
 
-        return $this->redirect($redirectUrl->generateUrl());
+        foreach ($this->entityManager->getRepository(TvShow::class)->findAll() as $tvShow) {
+            $this->importService->importTvShowDataFromTheTVDB($tvShow);
+        }
+
+        return null;
+    }
+
+    private function isActionOnDetailPage(AdminContext $context): bool
+    {
+        return ($tvShow = $context->getEntity()->getInstance()) && $tvShow instanceof TvShow;
     }
 }

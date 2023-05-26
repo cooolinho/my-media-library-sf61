@@ -120,10 +120,13 @@ class TvShow
         return $this->getName();
     }
 
-    public function getEpisodesInSeasonArray(): array
+    public function getEpisodesInSeasonArray(bool $onlyMissingEpisodes = false): array
     {
         $seasons = [];
         foreach ($this->getEpisodes() as $episode) {
+            if ($onlyMissingEpisodes && $episode->isOwned()) {
+                continue;
+            }
             $seasons[$episode->getSeasonNumber()][] = $episode;
         }
 
@@ -134,6 +137,22 @@ class TvShow
     {
         $episodes = $this->getEpisodes()->filter(function (Episode $episode) {
             return $episode->isOwned();
+        });
+
+        return $episodes->count();
+    }
+
+    public function getEpisodesNotOwned(): Collection
+    {
+        return $this->getEpisodes()->filter(function (Episode $episode) {
+            return !$episode->isOwned();
+        });
+    }
+
+    public function getCountEpisodesMissing(): int
+    {
+        $episodes = $this->getEpisodes()->filter(function (Episode $episode) {
+            return !$episode->isOwned();
         });
 
         return $episodes->count();

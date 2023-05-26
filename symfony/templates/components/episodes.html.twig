@@ -1,0 +1,72 @@
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">
+            Fehlende Episoden
+        </h2>
+        <div class="card-text">
+            <div{{ attributes }}>
+                <h3></h3>
+                <div class="accordion accordion-flush" id="accordionExample">
+                    {% for tvShow in this.tvShows %}
+                        {% if tvShow.countEpisodesMissing > 1 %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ tvShow.id }}">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{ tvShow.id }}" aria-expanded="true"
+                                            aria-controls="collapse{{ tvShow.id }}">
+                                        {{ tvShow.name }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ tvShow.id }}"
+                                     class="accordion-collapse collapse"
+                                     aria-labelledby="heading{{ tvShow.id }}" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+
+                                        <div class="accordion accordion-flush" id="accordionFlush{{ tvShow.id }}">
+                                            {% for seasonNumber, episodes in tvShow.episodesInSeasonArray(true) %}
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="flush-heading{{ seasonNumber }}">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse"
+                                                                data-bs-target="#flush-collapse{{ seasonNumber }}"
+                                                                aria-expanded="false"
+                                                                aria-controls="flush-collapse{{ seasonNumber }}">
+                                                            Staffel {{ seasonNumber }}
+                                                        </button>
+                                                    </h2>
+                                                    <div id="flush-collapse{{ seasonNumber }}"
+                                                         class="accordion-collapse collapse"
+                                                         aria-labelledby="flush-heading{{ seasonNumber }}"
+                                                         data-bs-parent="#accordionFlush{{ tvShow.id }}">
+                                                        <table class="table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Nummer</th>
+                                                                <th>Name</th>
+                                                                <th>Im Besitz</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for episode in episodes %}
+                                                                <tr>
+                                                                    <td>{{ episode.number }}</td>
+                                                                    <td>{{ episode.name }}</td>
+                                                                    <td>{{ episode.isOwned ? 'X' : '' }}</td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
