@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\ImportListController;
 use App\Entity\TvShow;
+use App\Service\TvShowService;
 use App\Service\FilesReaderService;
 use App\Service\ImportService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -108,6 +109,12 @@ class TvShowCrudController extends AbstractCrudController
         )
             ->linkToCrudAction('redirectToImportEpisodesAction');
 
+        $downloadArtworkAction = Action::new(
+            'app_download_artwork',
+            'Artwork herunterladen',
+            'fas fa-tv'
+        )
+            ->linkToCrudAction('redirectToDownloadArtworkAction');
 
         $actions->add(Crud::PAGE_INDEX, $globalSearchAction);
         $actions->add(Crud::PAGE_INDEX, $globalImportAction);
@@ -117,7 +124,7 @@ class TvShowCrudController extends AbstractCrudController
         $actions->add(Crud::PAGE_DETAIL, $importTvShowListAction);
         $actions->add(Crud::PAGE_DETAIL, $globalSearchAction);
         $actions->add(Crud::PAGE_DETAIL, $importEpisodesAction);
-        $actions->add(Crud::PAGE_DETAIL, $importEpisodesAction);
+        $actions->add(Crud::PAGE_DETAIL, $downloadArtworkAction);
 
         $actions->add(Crud::PAGE_NEW, $globalSearchAction);
 
@@ -171,6 +178,22 @@ class TvShowCrudController extends AbstractCrudController
             ->setDashboard(DashboardController::class);
 
         $tvShow = $this->importEpisodesByContext($context);
+
+        return $this->redirect($redirectUrl
+            ->setAction($tvShow ? Action::DETAIL : Action::INDEX)
+            ->setEntityId($tvShow?->getId())
+            ->generateUrl());
+    }
+
+    public function redirectToDownloadArtworkAction(AdminContext $context, TvShowService $tvShowService): RedirectResponse
+    {
+        $redirectUrl = $this->adminUrlGenerator
+            ->setController(__CLASS__)
+            ->setDashboard(DashboardController::class);
+
+        if ($tvShow = $context->getEntity()->getInstance()) {
+            $tvShowService->downloadArtwork($tvShow);
+        }
 
         return $this->redirect($redirectUrl
             ->setAction($tvShow ? Action::DETAIL : Action::INDEX)

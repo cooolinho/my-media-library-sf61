@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14434d132f10fad65289398c44ff8a3e",
+    "content-hash": "85ffe5bb2469c8530d2d2a34b1c92e99",
     "packages": [
         {
             "name": "cooolinho/tvdbapi-bundle",

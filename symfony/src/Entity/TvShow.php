@@ -44,9 +44,13 @@ class TvShow
     #[ORM\Column(length: 4, nullable: true)]
     private ?string $year = null;
 
+    #[ORM\OneToMany(mappedBy: 'tvshow', targetEntity: Artwork::class)]
+    private Collection $artworks;
+
     public function __construct()
     {
         $this->episodes = new ArrayCollection();
+        $this->artworks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -243,5 +247,35 @@ class TvShow
         $countOwnedEpisodes = $this->getCountEpisodesOwned();
 
         return 100 / $countEpisodes * $countOwnedEpisodes;
+    }
+
+    /**
+     * @return Collection<int, Artwork>
+     */
+    public function getArtworks(): Collection
+    {
+        return $this->artworks;
+    }
+
+    public function addArtwork(Artwork $artwork): self
+    {
+        if (!$this->artworks->contains($artwork)) {
+            $this->artworks->add($artwork);
+            $artwork->setTvshow($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtwork(Artwork $artwork): self
+    {
+        if ($this->artworks->removeElement($artwork)) {
+            // set the owning side to null (unless already changed)
+            if ($artwork->getTvshow() === $this) {
+                $artwork->setTvshow(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -4,6 +4,7 @@ parameters:
     thetvdb.apikey: '%env(THETVDB_APIKEY)%'
     thetvdb.pin: '%env(THETVDB_PIN)%'
     tvshow.filesystem.base_directory: '%env(TVSHOWS_BASE_DIRECTORY)%'
+    tvshow.artwork_directory: '%kernel.project_dir%/public/artworks'
 
 services:
     _defaults:
