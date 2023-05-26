@@ -1,7 +1,7 @@
 {
   "name": "cooolinho/tvdbapi-bundle",
   "license": "GPL-2.0-only",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "symfony-bundle",
   "description": "test reusable bundle",
   "minimum-stability": "dev",
@@ -9,7 +9,7 @@
     "php": ">=8.0",
     "ext-ctype": "*",
     "ext-iconv": "*",
-    "symfony/framework-bundle": "6.1.*",
+    "symfony/framework-bundle": "6.2.*",
     "symfony/flex": "^2"
   }
   ,
