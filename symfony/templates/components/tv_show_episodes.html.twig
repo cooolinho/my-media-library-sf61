@@ -1,0 +1,38 @@
+{% set tvShow = this.tvShow %}
+
+<div{{ attributes }}>
+    <table class="table table-sm table-hover">
+        <tbody>
+        {% for seasonNumber, episodes in tvShow.episodesInSeasonArray() %}
+            <tr>
+                <th colspan="2">Staffel {{ seasonNumber }}</th>
+                <th class="text-center">
+                    {% if tvShow.countEpisodesOwnedBySeasonNumber(seasonNumber) == tvShow.countEpisodesBySeasonNumber(seasonNumber) %}
+                        <span class="ms-3 badge text-bg-success">
+                                <i class="fas fa-check"></i>
+                            </span>
+                    {% else %}
+                        <span class="ms-3 badge text-bg-danger">
+                                <i class="fas fa-xmark"></i>
+                            </span>
+                    {% endif %}
+                </th>
+            </tr>
+
+            {% for episode in episodes %}
+                <tr>
+                    <td class="text-center">{{ episode.number }}</td>
+                    <td class="">{{ episode.name }}</td>
+                    <td  class="text-center">
+                        {% if episode.isOwned %}
+                            <span class="ms-3 badge text-bg-success"><i class="fas fa-check"></i></span>
+                        {% else %}
+                            <span class="ms-3 badge text-bg-danger"><i class="fas fa-xmark"></i></span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

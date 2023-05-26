@@ -1,7 +1,34 @@
 {% extends "@!EasyAdmin/crud/detail.html.twig" %}
 
 {% block main %}
-    {{ parent() }}
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-details-tab" data-bs-toggle="tab" data-bs-target="#nav-details" type="button" role="tab" aria-controls="nav-details" aria-selected="true">Details</button>
+            <button class="nav-link" id="nav-episodes-tab" data-bs-toggle="tab" data-bs-target="#nav-episodes" type="button" role="tab" aria-controls="nav-episodes" aria-selected="false">Episoden</button>
+            <button class="nav-link" id="nav-artwork-tab" data-bs-toggle="tab" data-bs-target="#nav-artwork" type="button" role="tab" aria-controls="nav-artwork" aria-selected="false">Artwork</button>
+            <button class="nav-link" id="nav-warez-tab" data-bs-toggle="tab" data-bs-target="#nav-warez" type="button" role="tab" aria-controls="nav-warez" aria-selected="false">Warez</button>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-details" role="tabpanel" aria-labelledby="nav-details-tab" tabindex="0">
+            {{ parent() }}
+        </div>
+        <div class="tab-pane fade" id="nav-episodes" role="tabpanel" aria-labelledby="nav-episodes-tab" tabindex="0">
 
-    {{ component('artwork', { 'tvshow_id': tvshow.id }) }}
+            <div class="row">
+                <div class="col-8">
+                    {{ component('tv_show_episodes', { tvshowId: tvshow.id }) }}
+                </div>
+                <div class="col-4">
+                    {{ component('episode_chart', { tvshowId: tvshow.id}) }}
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-artwork" role="tabpanel" aria-labelledby="nav-artwork-tab" tabindex="0">
+            {{ component('artwork', { 'tvshow_id': tvshow.id }) }}
+        </div>
+        <div class="tab-pane fade" id="nav-warez" role="tabpanel" aria-labelledby="nav-warez-tab" tabindex="0">
+            {{ component('warez_links', { tvshow: tvshow.name }) }}
+        </div>
+    </div>
 {% endblock %}

@@ -108,6 +108,7 @@ class TvShowCrudController extends AbstractCrudController
         )
             ->linkToCrudAction('redirectToImportEpisodesAction');
 
+
         $actions->add(Crud::PAGE_INDEX, $globalSearchAction);
         $actions->add(Crud::PAGE_INDEX, $globalImportAction);
         $actions->add(Crud::PAGE_INDEX, $globalImportAllEpisodesAction);
@@ -115,6 +116,7 @@ class TvShowCrudController extends AbstractCrudController
 
         $actions->add(Crud::PAGE_DETAIL, $importTvShowListAction);
         $actions->add(Crud::PAGE_DETAIL, $globalSearchAction);
+        $actions->add(Crud::PAGE_DETAIL, $importEpisodesAction);
         $actions->add(Crud::PAGE_DETAIL, $importEpisodesAction);
 
         $actions->add(Crud::PAGE_NEW, $globalSearchAction);

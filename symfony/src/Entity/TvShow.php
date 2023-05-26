@@ -236,4 +236,12 @@ class TvShow
 
         return $this;
     }
+
+    public function getTotalEpisodesInPercent(): float
+    {
+        $countEpisodes = $this->getEpisodes()->count();
+        $countOwnedEpisodes = $this->getCountEpisodesOwned();
+
+        return 100 / $countEpisodes * $countOwnedEpisodes;
+    }
 }

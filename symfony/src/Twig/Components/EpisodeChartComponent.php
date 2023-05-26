@@ -16,7 +16,7 @@ final class EpisodeChartComponent
     private EpisodeRepository $episodeRepository;
 
     #[ExposeInTemplate]
-    public ?int $tvshow_id = null;
+    public ?int $tvshowId = null;
     private int $countAll = 0;
     private int $countOwned = 0;
     private TvShowRepository $tvShowRepository;
@@ -36,7 +36,7 @@ final class EpisodeChartComponent
 
     public function getChart(): Chart
     {
-        if ($this->tvshow_id) {
+        if ($this->tvshowId) {
             $this->countAll = $this->getCountAll();
             $this->countOwned = $this->getCountOwned();
         }
@@ -61,7 +61,7 @@ final class EpisodeChartComponent
 
     public function getCountAll(): int
     {
-        if ($this->tvshow_id && $tvShow = $this->tvShowRepository->find($this->tvshow_id)) {
+        if ($this->tvshowId && $tvShow = $this->tvShowRepository->find($this->tvshowId)) {
             $this->countAll = $this->episodeRepository->getCountByTvShow($tvShow);
         }
 
@@ -70,7 +70,7 @@ final class EpisodeChartComponent
 
     public function getCountOwned(): int
     {
-        if ($this->tvshow_id && $tvShow = $this->tvShowRepository->find($this->tvshow_id)) {
+        if ($this->tvshowId && $tvShow = $this->tvShowRepository->find($this->tvshowId)) {
             $this->countOwned = $this->episodeRepository->getCountOwnedByTvShow($tvShow);
         }
 

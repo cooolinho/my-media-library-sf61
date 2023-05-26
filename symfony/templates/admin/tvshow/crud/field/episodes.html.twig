@@ -1,60 +1,7 @@
 {% set tvshow = entity.instance %}
 
-<div class="row">
-    <div class="col-8">
-        <div class="accordion" id="accordionExample">
-            {% for seasonNumber, episodes in tvshow.episodesInSeasonArray() %}
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading{{ seasonNumber }}">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse{{ seasonNumber }}" aria-expanded="true"
-                                aria-controls="collapse{{ seasonNumber }}">
-                            Staffel {{ seasonNumber }}
-                            <span class="ms-3 badge text-bg-secondary">
-                        {{ tvshow.countEpisodesOwnedBySeasonNumber(seasonNumber) }} / {{ tvshow.countEpisodesBySeasonNumber(seasonNumber) }}
-                    </span>
-                            {% if tvshow.countEpisodesOwnedBySeasonNumber(seasonNumber) == tvshow.countEpisodesBySeasonNumber(seasonNumber) %}
-                                <span class="ms-3 badge text-bg-success">
-                            <i class="fas fa-check"></i>
-                        </span>
-                            {% else %}
-                                <span class="ms-3 badge text-bg-danger">
-                            <i class="fas fa-xmark"></i>
-                        </span>
-                            {% endif %}
-                        </button>
-                    </h2>
-                    <div id="collapse{{ seasonNumber }}"
-                         class="accordion-collapse collapse"
-                         aria-labelledby="heading{{ seasonNumber }}" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Nummer</th>
-                                    <th>Name</th>
-                                    <th>Im Besitz</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for episode in episodes %}
-                                    <tr>
-                                        <td>{{ episode.number }}</td>
-                                        <td>{{ episode.name }}</td>
-                                        <td>{{ episode.isOwned ? 'X' : '' }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="col-4">
-        {{ component('episode_chart', {tvshow_id: tvshow.id}) }}
-        <hr>
-        {{ component('warez_links', { 'tvshow': tvshow.name }) }}
-    </div>
+<div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar" style="width: {{ tvshow.totalEpisodesInPercent }}%">{{ tvshow.totalEpisodesInPercent|number_format(0) }}%</div>
 </div>
+
+

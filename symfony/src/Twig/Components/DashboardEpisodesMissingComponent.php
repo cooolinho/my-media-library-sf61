@@ -5,8 +5,8 @@ namespace App\Twig\Components;
 use App\Repository\TvShowRepository;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('episodes')]
-final class EpisodesComponent
+#[AsTwigComponent('dashboard_episodes_missing')]
+final class DashboardEpisodesMissingComponent
 {
     protected TvShowRepository $tvShowRepository;
 
