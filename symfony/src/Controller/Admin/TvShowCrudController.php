@@ -4,9 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Controller\ImportListController;
 use App\Entity\TvShow;
-use App\Service\TvShowService;
 use App\Service\FilesReaderService;
 use App\Service\ImportService;
+use App\Service\TvShowService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -21,6 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -109,12 +110,19 @@ class TvShowCrudController extends AbstractCrudController
         )
             ->linkToCrudAction('redirectToImportEpisodesAction');
 
-        $downloadArtworkAction = Action::new(
+        $downloadArtworkFromTVDBAction = Action::new(
             'app_download_artwork',
-            'Artwork herunterladen',
+            'Artwork von TVDBApi herunterladen',
             'fas fa-tv'
         )
-            ->linkToCrudAction('redirectToDownloadArtworkAction');
+            ->linkToCrudAction('redirectToDownloadArtworkFromTVDBAction');
+
+        $downloadLocalArtworkAction = Action::new(
+            'app_download_local_artwork',
+            'Artwork als ZIP herunterladen',
+            'fas fa-tv'
+        )
+            ->linkToCrudAction('redirectToDownloadLocalArtworkAction');
 
         $actions->add(Crud::PAGE_INDEX, $globalSearchAction);
         $actions->add(Crud::PAGE_INDEX, $globalImportAction);
@@ -124,7 +132,8 @@ class TvShowCrudController extends AbstractCrudController
         $actions->add(Crud::PAGE_DETAIL, $importTvShowListAction);
         $actions->add(Crud::PAGE_DETAIL, $globalSearchAction);
         $actions->add(Crud::PAGE_DETAIL, $importEpisodesAction);
-        $actions->add(Crud::PAGE_DETAIL, $downloadArtworkAction);
+        $actions->add(Crud::PAGE_DETAIL, $downloadArtworkFromTVDBAction);
+        $actions->add(Crud::PAGE_DETAIL, $downloadLocalArtworkAction);
 
         $actions->add(Crud::PAGE_NEW, $globalSearchAction);
 
@@ -185,7 +194,7 @@ class TvShowCrudController extends AbstractCrudController
             ->generateUrl());
     }
 
-    public function redirectToDownloadArtworkAction(AdminContext $context, TvShowService $tvShowService): RedirectResponse
+    public function redirectToDownloadArtworkFromTVDBAction(AdminContext $context, TvShowService $tvShowService): RedirectResponse
     {
         $redirectUrl = $this->adminUrlGenerator
             ->setController(__CLASS__)
@@ -199,6 +208,11 @@ class TvShowCrudController extends AbstractCrudController
             ->setAction($tvShow ? Action::DETAIL : Action::INDEX)
             ->setEntityId($tvShow?->getId())
             ->generateUrl());
+    }
+
+    public function redirectToDownloadLocalArtworkAction(AdminContext $context, TvShowService $tvShowService): BinaryFileResponse|RedirectResponse
+    {
+        return $tvShowService->createArtworkZipFile($context->getEntity()->getInstance());
     }
 
     private function importEpisodesByContext(AdminContext $context): ?TvShow

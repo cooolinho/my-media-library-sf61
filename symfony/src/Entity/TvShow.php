@@ -257,6 +257,17 @@ class TvShow
         return $this->artworks;
     }
 
+    public function getArtworksByType(): array
+    {
+        $artworks = [];
+
+        foreach ($this->getArtworks() as $artwork) {
+            $artworks[$artwork->getType()][] = $artwork;
+        }
+
+        return $artworks;
+    }
+
     public function addArtwork(Artwork $artwork): self
     {
         if (!$this->artworks->contains($artwork)) {
