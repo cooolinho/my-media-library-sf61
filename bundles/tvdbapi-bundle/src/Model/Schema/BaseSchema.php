@@ -9,7 +9,7 @@ abstract class BaseSchema
     public function __construct(array $data)
     {
         foreach ($data as $key => $value) {
-            if (isset($this->$key) && $value) {
+            if (property_exists($this, $key) && $value) {
                 $this->$key = $value;
             }
         }

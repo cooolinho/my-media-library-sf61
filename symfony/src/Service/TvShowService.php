@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Artwork;
 use App\Entity\TvShow;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\ArtworkExtendedRecord;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\ArtworkType;
+use Cooolinho\Bundle\TVDBApiBundle\Request\Series;
 use Cooolinho\Bundle\TVDBApiBundle\Service\SeriesService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class TvShowService
 {
-    protected ParameterBagInterface $parameterBag;
-    protected EntityManagerInterface $entityManager;
-    protected FileDownloaderService $fileDownloader;
-    private SeriesService $seriesService;
     private static array $supportedArtworkTypes = [
         ArtworkType::SERIES_BACKGROUND,
         ArtworkType::SERIES_BANNER,
@@ -25,16 +26,12 @@ class TvShowService
     ];
 
     public function __construct(
-        SeriesService          $seriesService,
-        ParameterBagInterface  $parameterBag,
-        EntityManagerInterface $entityManager,
-        FileDownloaderService  $fileDownloader
+        private readonly Series          $seriesService,
+        private readonly ParameterBagInterface  $parameterBag,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly FileDownloaderService  $fileDownloader
     )
     {
-        $this->seriesService = $seriesService;
-        $this->parameterBag = $parameterBag;
-        $this->entityManager = $entityManager;
-        $this->fileDownloader = $fileDownloader;
     }
 
     public function downloadArtwork(TvShow $tvShow): void
@@ -67,10 +64,9 @@ class TvShowService
 
     public function getArtworkDirectory(TvShow $tvShow): string
     {
-        return sprintf('%s/public/%s/%s',
+        return sprintf('%s/public/%s',
             $this->parameterBag->get('kernel.project_dir'),
-            $this->parameterBag->get('tvshow.artwork_directory_public'),
-            $tvShow->getTheTvDbId()
+            $this->getArtworkPublicDirectory($tvShow),
         );
     }
 
@@ -82,7 +78,7 @@ class TvShowService
         );
     }
 
-    public function createArtworkZipFile(TvShow $tvShow): BinaryFileResponse
+    public function createArtworkZipFile(TvShow $tvShow): ?BinaryFileResponse
     {
         $filesystem = new Filesystem();
         $filesToZip = [];
@@ -103,10 +99,39 @@ class TvShowService
         $zipFilePath = sprintf('%s/%s', $this->getArtworkDirectory($tvShow), 'artwork.zip');
         $zipFilename = sprintf('%s.zip', $tvShow->getSlug());
 
+        if (empty($filesToZip)) {
+            return null;
+        }
+
         return $this->fileDownloader->downloadFilesAsZip(
             $filesToZip,
             $zipFilePath,
             $zipFilename
         );
+    }
+
+    /**
+     * Liest die Dateien lokal über den Finder aus, anstatt es aus der Datenbank zu lesen
+     *
+     * @param TvShow $tvShow
+     * @return array
+     */
+    private function getLocalArtworkFiles(TvShow $tvShow): array
+    {
+        $finder = new Finder();
+        $finder->files()->in($this->getArtworkDirectory($tvShow));
+
+        $files = [];
+        if ($finder->hasResults()) {
+            /** @var SplFileInfo $file */
+            foreach ($finder as $file) {
+                $files[] = sprintf('%s/%s',
+                    $this->getArtworkDirectory($tvShow),
+                    $file->getFilename()
+                );
+            }
+        }
+
+        return $files;
     }
 }

@@ -32,9 +32,7 @@ class SeriesArtworksResponse
 
     public function getArtworksByType(int $type): ArrayCollection
     {
-        return $this->getSeries()->getArtworks()->filter(function (ArtworkExtendedRecord $artwork) use ($type) {
-            return $artwork->getType() === $type;
-        });
+        return $this->getArtworksByTypes([$type]);
     }
 
     public function getArtworksByTypes(array $types): ArrayCollection

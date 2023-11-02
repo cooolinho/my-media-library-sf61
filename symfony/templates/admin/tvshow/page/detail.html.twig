@@ -1,5 +1,7 @@
 {% extends "@!EasyAdmin/crud/detail.html.twig" %}
 
+{% block content_title %}{{ tvshow.name }} ({{ tvshow.totalEpisodesInPercent|number_format(0) }}%){% endblock %}
+
 {% block main %}
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">

@@ -8,7 +8,7 @@ use Cooolinho\Bundle\TVDBApiBundle\Model\Response\Traits\UseLinksTrait;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\SeriesBaseRecord;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class SeriesEpisodesResponse
+class SeriesEpisodesResponse extends BaseResponse
 {
     use UseLinksTrait;
 
@@ -30,5 +30,10 @@ class SeriesEpisodesResponse
     public function getEpisodes(): ArrayCollection
     {
         return $this->getSeries()->getEpisodes();
+    }
+
+    protected function getSchemaClass(): string
+    {
+        return SeriesBaseRecord::class;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cooolinho\Bundle\TVDBApiBundle\Model\Schema;
 
-class SearchResult extends BaseSchema
+class SearchSchema extends BaseSchema
 {
     public array $aliases = [];
     public array $companies = [];
@@ -44,7 +44,7 @@ class SearchResult extends BaseSchema
         return $this->aliases;
     }
 
-    public function setAliases(array $aliases): SearchResult
+    public function setAliases(array $aliases): SearchSchema
     {
         $this->aliases = $aliases;
 
@@ -56,7 +56,7 @@ class SearchResult extends BaseSchema
         return $this->companies;
     }
 
-    public function setCompanies(array $companies): SearchResult
+    public function setCompanies(array $companies): SearchSchema
     {
         $this->companies = $companies;
 
@@ -68,7 +68,7 @@ class SearchResult extends BaseSchema
         return $this->companyType;
     }
 
-    public function setCompanyType(string $companyType): SearchResult
+    public function setCompanyType(string $companyType): SearchSchema
     {
         $this->companyType = $companyType;
 
@@ -80,7 +80,7 @@ class SearchResult extends BaseSchema
         return $this->country;
     }
 
-    public function setCountry(string $country): SearchResult
+    public function setCountry(string $country): SearchSchema
     {
         $this->country = $country;
 
@@ -92,7 +92,7 @@ class SearchResult extends BaseSchema
         return $this->director;
     }
 
-    public function setDirector(string $director): SearchResult
+    public function setDirector(string $director): SearchSchema
     {
         $this->director = $director;
 
@@ -104,7 +104,7 @@ class SearchResult extends BaseSchema
         return $this->first_air_time;
     }
 
-    public function setFirstAirTime(string $first_air_time): SearchResult
+    public function setFirstAirTime(string $first_air_time): SearchSchema
     {
         $this->first_air_time = $first_air_time;
 
@@ -116,7 +116,7 @@ class SearchResult extends BaseSchema
         return $this->genres;
     }
 
-    public function setGenres(array $genres): SearchResult
+    public function setGenres(array $genres): SearchSchema
     {
         $this->genres = $genres;
 
@@ -128,7 +128,7 @@ class SearchResult extends BaseSchema
         return $this->id;
     }
 
-    public function setId(string $id): SearchResult
+    public function setId(string $id): SearchSchema
     {
         $this->id = $id;
 
@@ -140,7 +140,7 @@ class SearchResult extends BaseSchema
         return $this->image_url;
     }
 
-    public function setImageUrl(string $image_url): SearchResult
+    public function setImageUrl(string $image_url): SearchSchema
     {
         $this->image_url = $image_url;
 
@@ -152,7 +152,7 @@ class SearchResult extends BaseSchema
         return $this->name;
     }
 
-    public function setName(string $name): SearchResult
+    public function setName(string $name): SearchSchema
     {
         $this->name = $name;
 
@@ -164,7 +164,7 @@ class SearchResult extends BaseSchema
         return $this->is_official;
     }
 
-    public function setIsOfficial(bool $is_official): SearchResult
+    public function setIsOfficial(bool $is_official): SearchSchema
     {
         $this->is_official = $is_official;
 
@@ -176,7 +176,7 @@ class SearchResult extends BaseSchema
         return $this->name_translated;
     }
 
-    public function setNameTranslated(string $name_translated): SearchResult
+    public function setNameTranslated(string $name_translated): SearchSchema
     {
         $this->name_translated = $name_translated;
 
@@ -188,7 +188,7 @@ class SearchResult extends BaseSchema
         return $this->network;
     }
 
-    public function setNetwork(string $network): SearchResult
+    public function setNetwork(string $network): SearchSchema
     {
         $this->network = $network;
 
@@ -200,7 +200,7 @@ class SearchResult extends BaseSchema
         return $this->objectID;
     }
 
-    public function setObjectID(string $objectID): SearchResult
+    public function setObjectID(string $objectID): SearchSchema
     {
         $this->objectID = $objectID;
 
@@ -212,7 +212,7 @@ class SearchResult extends BaseSchema
         return $this->officialList;
     }
 
-    public function setOfficialList(string $officialList): SearchResult
+    public function setOfficialList(string $officialList): SearchSchema
     {
         $this->officialList = $officialList;
 
@@ -224,7 +224,7 @@ class SearchResult extends BaseSchema
         return $this->overview;
     }
 
-    public function setOverview(string $overview): SearchResult
+    public function setOverview(string $overview): SearchSchema
     {
         $this->overview = $overview;
 
@@ -236,7 +236,7 @@ class SearchResult extends BaseSchema
         return $this->overviews;
     }
 
-    public function setOverviews(array $overviews): SearchResult
+    public function setOverviews(array $overviews): SearchSchema
     {
         $this->overviews = $overviews;
 
@@ -248,7 +248,7 @@ class SearchResult extends BaseSchema
         return $this->overview_translated;
     }
 
-    public function setOverviewTranslated(array $overview_translated): SearchResult
+    public function setOverviewTranslated(array $overview_translated): SearchSchema
     {
         $this->overview_translated = $overview_translated;
 
@@ -260,7 +260,7 @@ class SearchResult extends BaseSchema
         return $this->poster;
     }
 
-    public function setPoster(string $poster): SearchResult
+    public function setPoster(string $poster): SearchSchema
     {
         $this->poster = $poster;
 
@@ -272,7 +272,7 @@ class SearchResult extends BaseSchema
         return $this->posters;
     }
 
-    public function setPosters(array $posters): SearchResult
+    public function setPosters(array $posters): SearchSchema
     {
         $this->posters = $posters;
 
@@ -284,7 +284,7 @@ class SearchResult extends BaseSchema
         return $this->primary_language;
     }
 
-    public function setPrimaryLanguage(string $primary_language): SearchResult
+    public function setPrimaryLanguage(string $primary_language): SearchSchema
     {
         $this->primary_language = $primary_language;
 
@@ -296,7 +296,7 @@ class SearchResult extends BaseSchema
         return $this->remote_ids;
     }
 
-    public function setRemoteIds(array $remote_ids): SearchResult
+    public function setRemoteIds(array $remote_ids): SearchSchema
     {
         $this->remote_ids = $remote_ids;
 
@@ -308,7 +308,7 @@ class SearchResult extends BaseSchema
         return $this->status;
     }
 
-    public function setStatus(string $status): SearchResult
+    public function setStatus(string $status): SearchSchema
     {
         $this->status = $status;
 
@@ -320,7 +320,7 @@ class SearchResult extends BaseSchema
         return $this->slug;
     }
 
-    public function setSlug(string $slug): SearchResult
+    public function setSlug(string $slug): SearchSchema
     {
         $this->slug = $slug;
 
@@ -332,7 +332,7 @@ class SearchResult extends BaseSchema
         return $this->studios;
     }
 
-    public function setStudios(array $studios): SearchResult
+    public function setStudios(array $studios): SearchSchema
     {
         $this->studios = $studios;
 
@@ -344,7 +344,7 @@ class SearchResult extends BaseSchema
         return $this->title;
     }
 
-    public function setTitle(string $title): SearchResult
+    public function setTitle(string $title): SearchSchema
     {
         $this->title = $title;
 
@@ -356,7 +356,7 @@ class SearchResult extends BaseSchema
         return $this->thumbnail;
     }
 
-    public function setThumbnail(string $thumbnail): SearchResult
+    public function setThumbnail(string $thumbnail): SearchSchema
     {
         $this->thumbnail = $thumbnail;
 
@@ -368,7 +368,7 @@ class SearchResult extends BaseSchema
         return $this->translations;
     }
 
-    public function setTranslations(array $translations): SearchResult
+    public function setTranslations(array $translations): SearchSchema
     {
         $this->translations = $translations;
 
@@ -385,7 +385,7 @@ class SearchResult extends BaseSchema
         return $this->translationsWithLang;
     }
 
-    public function setTranslationsWithLang(array $translationsWithLang): SearchResult
+    public function setTranslationsWithLang(array $translationsWithLang): SearchSchema
     {
         $this->translationsWithLang = $translationsWithLang;
 
@@ -397,7 +397,7 @@ class SearchResult extends BaseSchema
         return $this->tvdb_id;
     }
 
-    public function setTvdbId(string $tvdb_id): SearchResult
+    public function setTvdbId(string $tvdb_id): SearchSchema
     {
         $this->tvdb_id = $tvdb_id;
 
@@ -409,7 +409,7 @@ class SearchResult extends BaseSchema
         return $this->type;
     }
 
-    public function setType(string $type): SearchResult
+    public function setType(string $type): SearchSchema
     {
         $this->type = $type;
 
@@ -421,7 +421,7 @@ class SearchResult extends BaseSchema
         return $this->year;
     }
 
-    public function setYear(string $year): SearchResult
+    public function setYear(string $year): SearchSchema
     {
         $this->year = $year;
 

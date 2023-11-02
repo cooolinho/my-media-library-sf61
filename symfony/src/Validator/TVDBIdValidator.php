@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validator;
 
+use App\Entity\TvShow;
 use App\Repository\TvShowRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -24,11 +27,7 @@ class TVDBIdValidator extends ConstraintValidator
 
         $tvShow = $this->tvShowRepository->findByTheTvDbId($value);
 
-        if ($tvShow === $this->context->getObject()) {
-            return;
-        }
-
-        if ($tvShow !== $this->context->getObject()) {
+        if ($tvShow instanceof TvShow) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
                 ->setParameter('{{ tvshow }}', $tvShow->getName())

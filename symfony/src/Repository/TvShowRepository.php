@@ -12,7 +12,6 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method TvShow|null find($id, $lockMode = null, $lockVersion = null)
  * @method TvShow|null findOneBy(array $criteria, array $orderBy = null)
- * @method TvShow[]    findAll()
  * @method TvShow[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class TvShowRepository extends ServiceEntityRepository
@@ -67,7 +66,7 @@ class TvShowRepository extends ServiceEntityRepository
     {
         try {
             $result = $this->createQueryBuilder('t')
-                ->select('count(t.id) as '.self::KEY_TVSHOWS)
+                ->select('count(t.id) as ' . self::KEY_TVSHOWS)
                 ->getQuery()
                 ->getOneOrNullResult();
 
@@ -81,12 +80,20 @@ class TvShowRepository extends ServiceEntityRepository
     {
         try {
             return $this->createQueryBuilder('t')
-                ->where('t.'.TvShow::theTvDbId.' = :theTvDbId')
+                ->where('t.' . TvShow::theTvDbId . ' = :theTvDbId')
                 ->setParameter('theTvDbId', $theTvDbId)
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
             return null;
         }
+    }
+
+    public function findAll()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy(sprintf('t.%s', TvShow::name), 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

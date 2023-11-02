@@ -8,32 +8,23 @@ use App\Entity\TvShow;
 use App\Helper\TheTVDBHelper;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Response\SeriesEpisodesResponse;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\EpisodeBaseRecord;
+use Cooolinho\Bundle\TVDBApiBundle\Request\Series;
 use Cooolinho\Bundle\TVDBApiBundle\Service\SeriesService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ImportService
 {
-    protected SeriesService $api;
-    protected EntityManagerInterface $entityManager;
-
     public function __construct(
-        SeriesService $api,
-        EntityManagerInterface $entityManager,
+        private readonly Series                 $api,
+        private readonly EntityManagerInterface $entityManager,
     ) {
-        $this->api = $api;
-        $this->entityManager = $entityManager;
     }
 
     public function importTvShowDataFromTheTVDB(TvShow $tvShow, int $page = 0): void
     {
         if ($tvShow->getTheTvDbId()) {
-            $response = $this->api->getSeriesEpisodes(
-                $tvShow->getTheTvDbId(),
-                SeriesService::SEASON_TYPE_DEFAULT,
-                SeriesService::LANG_DE,
-                $page
-            );
+            $response = $this->api->getSeriesSeasonEpisodesTranslated($tvShow->getTheTvDbId(), $page);
 
             $this->updateTvShowByResponse($tvShow, $response);
 

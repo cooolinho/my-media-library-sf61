@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cooolinho\Bundle\TVDBApiBundle\Model\Response;
 
-use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\SearchSchema;
+use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\LanguageSchema;
 
-class SearchResponse extends BaseResponse
+class LanguagesResponse extends BaseResponse
 {
     protected function getSchemaClass(): string
     {
-        return SearchSchema::class;
+        return LanguageSchema::class;
     }
 }

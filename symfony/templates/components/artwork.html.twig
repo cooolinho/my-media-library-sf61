@@ -16,7 +16,27 @@
                             {% for artwork in data.artworks %}
                                 <div class="col-3">
                                     <div class="card">
-                                        <img src="{{ artwork.image }}" class="card-img-top" alt="{{ artwork.id }}">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal-artwork-tvdb-{{ artwork.id }}">
+                                            <img src="{{ artwork.image }}" class="card-img-top" alt="{{ artwork.id }}">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="modal-artwork-tvdb-{{ artwork.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-artwork-tvdb-{{ artwork.id }}Label" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="modal-artwork-tvdb-{{ artwork.id }}Label">{{ artwork.image }}</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="{{ artwork.image }}" class="card-img-top" alt="{{ artwork.id }}">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             {% endfor %}

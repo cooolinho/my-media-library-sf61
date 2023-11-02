@@ -246,6 +246,10 @@ class TvShow
         $countEpisodes = $this->getEpisodes()->count();
         $countOwnedEpisodes = $this->getCountEpisodesOwned();
 
+        if ($countEpisodes === 0 || $countOwnedEpisodes === 0) {
+            return 0.00;
+        }
+
         return 100 / $countEpisodes * $countOwnedEpisodes;
     }
 

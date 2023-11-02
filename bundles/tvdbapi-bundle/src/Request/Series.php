@@ -2,28 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Cooolinho\Bundle\TVDBApiBundle\Service;
+namespace Cooolinho\Bundle\TVDBApiBundle\Request;
 
+use Cooolinho\Bundle\TVDBApiBundle\Api\SeasonType;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Response\SeriesArtworksResponse;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Response\SeriesEpisodesResponse;
 
-class SeriesService extends AbstractService
+class Series extends BaseRequest
 {
-    public const SEASON_TYPE_OFFICIAL = 'official';
-    public const SEASON_TYPE_ABSOLUTE = 'alternate';
-    public const SEASON_TYPE_REGIONAL = 'regional';
-    public const SEASON_TYPE_DVD = 'dvd';
-    public const SEASON_TYPE_DEFAULT = 'default';
-
-    public const LANG_DE = 'deu';
-    public const LANG_EN = 'eng';
-
-    public function getSeriesEpisodes(
-        int $seriesId,
-        string $seasonType = self::SEASON_TYPE_DEFAULT,
-        string $lang = self::LANG_EN,
-        int $page = 0
-    ): SeriesEpisodesResponse {
+    public function getSeriesSeasonEpisodesTranslated(
+        int    $seriesId,
+        int    $page = 0,
+        string $seasonType = SeasonType::DEFAULT,
+        string $lang = Languages::DEU,
+    ): SeriesEpisodesResponse
+    {
         $response = $this->api->request(
             sprintf('series/%s/episodes/%s/%s', $seriesId, $seasonType, $lang),
             [

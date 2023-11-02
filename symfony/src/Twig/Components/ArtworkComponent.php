@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Twig\Components;
 
 use App\Entity\Artwork;
 use App\Entity\TvShow;
-use App\Repository\ArtworkRepository;
 use App\Repository\TvShowRepository;
 use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\ArtworkType;
-use Cooolinho\Bundle\TVDBApiBundle\Service\SeriesService;
+use Cooolinho\Bundle\TVDBApiBundle\Request\Series;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 
@@ -17,45 +18,38 @@ final class ArtworkComponent
     #[ExposeInTemplate]
     public ?int $tvshow_id = null;
     public TvShow|null $tvShow = null;
-    protected ArtworkRepository $artworkRepository;
-    private SeriesService $seriesService;
-    private TvShowRepository $tvShowRepository;
 
     public function __construct(
-        TvShowRepository  $tvShowRepository,
-        ArtworkRepository $artworkRepository,
-        SeriesService     $seriesService
+        private readonly TvShowRepository $tvShowRepository,
+        private readonly Series           $seriesService
     )
     {
-        $this->tvShowRepository = $tvShowRepository;
-        $this->seriesService = $seriesService;
-        $this->artworkRepository = $artworkRepository;
     }
 
     public function getMedia(): array
     {
-        $media = [];
+        $tvShow = $this->tvShowRepository->find($this->tvshow_id);
 
-        if (is_numeric($this->tvshow_id) && $tvShow = $this->tvShowRepository->find($this->tvshow_id)) {
-            $result = $this->seriesService->getSeriesArtworks($tvShow->getTheTvDbId());
-
-            $media = [
-                ArtworkType::SERIES_BACKGROUND => [
-                    'title' => 'Hintergrund',
-                    'artworks' => $result->getArtworksByType(ArtworkType::SERIES_BACKGROUND),
-                ],
-                ArtworkType::SERIES_BANNER => [
-                    'title' => 'Banner',
-                    'artworks' => $result->getArtworksByType(ArtworkType::SERIES_BANNER),
-                ],
-                ArtworkType::SERIES_POSTER => [
-                    'title' => 'Poster',
-                    'artworks' => $result->getArtworksByType(ArtworkType::SERIES_POSTER),
-                ],
-            ];
+        if (!is_numeric($this->tvshow_id) || !$tvShow || !$tvShow->getTheTvDbId()) {
+            return [];
         }
 
-        return $media;
+        $result = $this->seriesService->getSeriesArtworks($tvShow->getTheTvDbId());
+
+        return [
+            ArtworkType::SERIES_BACKGROUND => [
+                'title' => 'Hintergrund',
+                'artworks' => $result->getArtworksByType(ArtworkType::SERIES_BACKGROUND),
+            ],
+            ArtworkType::SERIES_BANNER => [
+                'title' => 'Banner',
+                'artworks' => $result->getArtworksByType(ArtworkType::SERIES_BANNER),
+            ],
+            ArtworkType::SERIES_POSTER => [
+                'title' => 'Poster',
+                'artworks' => $result->getArtworksByType(ArtworkType::SERIES_POSTER),
+            ],
+        ];
     }
 
     public function getLocalMedia(): array

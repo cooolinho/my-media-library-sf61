@@ -1,7 +1,29 @@
-<div>
-    <ul class="list-group">
-        {% for link in this.links %}
-            <li class="list-group-item"><a href="{{ link.url }}" target="_blank">{{ link.name }}</a></li>
+<nav>
+    <div class="nav nav-tabs" id="nav-warez-links-tab" role="tablist">
+        {% for i, link in this.links %}
+            <button class="nav-link {{ i == 0 ? 'active' : '' }}"
+                    id="nav-warez-link-{{ link.id }}-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#nav-warez-link-{{ link.id }}"
+                    type="button"
+                    role="tab"
+                    aria-controls="nav-warez-link-{{ link.id }}"
+                    aria-selected="true">
+                {{ link.name }}
+            </button>
         {% endfor %}
-    </ul>
+    </div>
+</nav>
+<div class="tab-content" id="nav-warez-links-tabContent">
+    {% for i, link in this.links %}
+        <div class="tab-pane fade show {{ i == 0 ? 'active' : '' }}" id="nav-warez-link-{{ link.id }}" role="tabpanel"
+             aria-labelledby="nav-warez-link-{{ link.id }}-tab" tabindex="0">
+            <iframe
+                    src="{{ link.url }}"
+                    width="100%"
+                    height="800"
+                    name="iframe-{{ link.id }}">
+            </iframe>
+        </div>
+    {% endfor %}
 </div>

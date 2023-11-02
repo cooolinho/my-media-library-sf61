@@ -22,7 +22,11 @@ class FileDownloaderService
     public function downloadFromUrl(string $url, string $directory): ?string
     {
         $client = HttpClient::create();
+        $filesystem = new Filesystem();
 
+        if (!$filesystem->exists($directory)) {
+            $filesystem->mkdir($directory);
+        }
         try {
             $response = $client->request('GET', $url);
 
@@ -30,11 +34,6 @@ class FileDownloaderService
                 $content = $response->getContent();
                 $filename = pathinfo($url, PATHINFO_BASENAME);
 
-                $filesystem = new Filesystem();
-
-                if (!$filesystem->exists($directory)) {
-                    $filesystem->mkdir($directory);
-                }
 
                 $destinationFile = sprintf('%s/%s',
                     $directory,
