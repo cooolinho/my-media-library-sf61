@@ -6,7 +6,7 @@ namespace Cooolinho\Bundle\TVDBApiBundle\Model\Response;
 
 use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\SearchSchema;
 
-class SearchResponse extends BaseResponse
+class SearchResponse extends MultipleResponse
 {
     protected function getSchemaClass(): string
     {

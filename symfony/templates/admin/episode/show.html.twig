@@ -1,0 +1,21 @@
+{% extends "@!EasyAdmin/crud/detail.html.twig" %}
+
+{% block main %}
+    {{ parent() }}
+
+    <hr>
+
+    <img src="{{ episode.image }}" alt="Vorschau">
+    <h2>{{ episode.seasonNumber|str_pad_left }} x {{ episode.number|str_pad_left }}</h2>
+    <div class="container">
+        <span class="badge badge-primary">
+            Aired: {{ episode.aired }}
+        </span>
+        <span class="badge badge-primary">
+            Runtime: {{ episode.runtime }} min
+        </span>
+    </div>
+    <div class="container">
+        <p>{{ episode.overview }}</p>
+    </div>
+{% endblock %}

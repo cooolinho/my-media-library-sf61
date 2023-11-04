@@ -16,17 +16,4 @@ abstract class BaseResponse
     {
         return $this->response;
     }
-
-    public function getResults(): array
-    {
-        $results = [];
-        $schemaClass = $this->getSchemaClass();
-        if (class_exists($schemaClass)) {
-            foreach ($this->getApiResponse()->getData() as $data) {
-                $results[] = new $schemaClass($data);
-            }
-        }
-
-        return $results;
-    }
 }

@@ -12,11 +12,10 @@ class SeriesEpisodesResponse extends BaseResponse
 {
     use UseLinksTrait;
 
-    protected ApiResponse $response;
-
-    public function __construct(ApiResponse $response)
+    public function __construct(protected ApiResponse $response)
     {
-        $this->response = $response;
+        parent::__construct($response);
+
         if ($response->getOriginalResponse()) {
             $this->setLinks($response->getOriginalResponse());
         }

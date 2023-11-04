@@ -6,7 +6,7 @@ namespace Cooolinho\Bundle\TVDBApiBundle\Model\Response;
 
 use Cooolinho\Bundle\TVDBApiBundle\Model\Schema\LanguageSchema;
 
-class LanguagesResponse extends BaseResponse
+class LanguagesResponse extends MultipleResponse
 {
     protected function getSchemaClass(): string
     {

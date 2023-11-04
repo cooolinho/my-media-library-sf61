@@ -9,12 +9,12 @@
                 <th class="text-center">
                     {% if tvShow.countEpisodesOwnedBySeasonNumber(seasonNumber) == tvShow.countEpisodesBySeasonNumber(seasonNumber) %}
                         <span class="ms-3 badge text-bg-success">
-                                <i class="fas fa-check"></i>
-                            </span>
+                            <i class="fas fa-check"></i>
+                        </span>
                     {% else %}
                         <span class="ms-3 badge text-bg-danger">
-                                <i class="fas fa-xmark"></i>
-                            </span>
+                            <i class="fas fa-xmark"></i>
+                        </span>
                     {% endif %}
                 </th>
             </tr>
@@ -22,7 +22,11 @@
             {% for episode in episodes %}
                 <tr>
                     <td class="text-center">{{ episode.number }}</td>
-                    <td class="">{{ episode.name }}</td>
+                    <td class="">
+                        <a href="{{ episode_show_url(episode) }}">
+                            {{ episode.name }}
+                        </a>
+                    </td>
                     <td  class="text-center">
                         {% if episode.isOwned %}
                             <span class="ms-3 badge text-bg-success"><i class="fas fa-check"></i></span>
