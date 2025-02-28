@@ -17,14 +17,7 @@ services:
 
   php:
     container_name: my_media_library_php
-    build:
-      context: .
-      dockerfile: docker/php/Dockerfile
-      args:
-        - "TIMEZONE=${TIMEZONE}"
-        - "NODE_VERSION=${NODE_VERSION}"
-        - "NVM_VERSION=${NVM_VERSION}"
-        - "XDEBUG_VERSION=${XDEBUG_VERSION}"
+    image: cooolinho/docker-symfony-php:8.1
     volumes:
       - ./symfony/:/var/www/symfony/
       - ./bundles/:/var/www/bundles/
