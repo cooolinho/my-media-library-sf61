@@ -49,7 +49,7 @@ docker exec -it my_media_library_php /bin/bash
 
 # Demo Data
 ```bash
-docker exec -it my_media_library_php sh -c "sf doctrine:fixtures:load --no-interaction"
+docker exec -it my_media_library_php sh -c "php bin/console doctrine:fixtures:load --no-interaction"
 ```
 
 ## References
