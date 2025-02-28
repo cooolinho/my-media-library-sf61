@@ -1,5 +1,6 @@
 services:
   db:
+    container_name: my_media_library_db
     build:
       context: .
       dockerfile: docker/database/Dockerfile
@@ -15,6 +16,7 @@ services:
       - my_media_library
 
   php:
+    container_name: my_media_library_php
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -23,9 +25,6 @@ services:
         - "NODE_VERSION=${NODE_VERSION}"
         - "NVM_VERSION=${NVM_VERSION}"
         - "XDEBUG_VERSION=${XDEBUG_VERSION}"
-        - "DEV_USER=${DEV_USER}"
-        - "DEV_USER_UID=${DEV_USER_UID}"
-    command: ["/usr/local/bin/start.sh"]
     volumes:
       - ./symfony/:/var/www/symfony/
       - ./bundles/:/var/www/bundles/
@@ -39,6 +38,7 @@ services:
       - my_media_library
 
   nginx:
+    container_name: my_media_library_nginx
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
