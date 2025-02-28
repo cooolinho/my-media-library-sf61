@@ -1,3 +1,7 @@
 /.idea/
 /.vagrant/
 /vendor/
+
+*.log
+.env
+!.gitkeep

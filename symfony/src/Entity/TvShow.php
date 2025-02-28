@@ -26,7 +26,6 @@ class TvShow
     private ?string $name = null;
 
     #[ORM\Column(unique: true, nullable: true)]
-    #[TVDBId]
     private ?int $theTvDbId = null;
 
     #[ORM\OneToMany(mappedBy: 'tvshow', targetEntity: Episode::class, orphanRemoval: true)]
