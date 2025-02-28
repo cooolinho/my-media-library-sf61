@@ -34,7 +34,7 @@ all the episodes. In order not to lose the overview I compare the data with the 
 
 4. Start the Docker Containers
     ```bash
-    docker-compose up -d    
+    docker-compose up -d
     ```
 
 5. Install the Composer Dependencies, Migrations & Assets
