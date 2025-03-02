@@ -11,11 +11,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TvShowRepository::class)]
 class TvShow
 {
+    // properties
     public const id = 'id';
     public const name = 'name';
     public const slug = 'slug';
     public const theTvDbId = 'theTvDbId';
-    public const episodes = 'episodes';
+    public const directoryName = 'directoryName';
+
+    // relations
+    public const has_many_episodes = 'episodes';
+    public const has_many_artworks = 'artworks';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -46,10 +51,18 @@ class TvShow
     #[ORM\OneToMany(mappedBy: 'tvshow', targetEntity: Artwork::class)]
     private Collection $artworks;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $directoryName = null;
+
     public function __construct()
     {
         $this->episodes = new ArrayCollection();
         $this->artworks = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -291,5 +304,29 @@ class TvShow
         }
 
         return $this;
+    }
+
+    public function getDirectoryName(): ?string
+    {
+        if (null === $this->directoryName) {
+            return $this->getName();
+        }
+
+        return $this->directoryName;
+    }
+
+    public function setDirectoryName(?string $directoryName): TvShow
+    {
+        $this->directoryName = $directoryName;
+        return $this;
+    }
+
+    public function getWarezSearchTerm(): string
+    {
+        if ($this->slug !== null) {
+            return $this->slug;
+        }
+
+        return $this->name;
     }
 }

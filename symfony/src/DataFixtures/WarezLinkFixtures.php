@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 class WarezLinkFixtures extends Fixture
 {
     private static array $links = [
-        ['Serienjunkies.org', 'https://serienjunkies.org/serie/%s'],
+        ['Serienjunkies.org', 'https://serienjunkies.org/serie/search?q=%s'],
         ['thetvdb.com Suche', 'https://thetvdb.com/search?query=%s'],
     ];
 

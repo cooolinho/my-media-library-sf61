@@ -74,7 +74,7 @@ class FilesReaderService
     {
         $regex = str_replace(
             self::PLACEHOLDER_TVSHOW_NAME,
-            $tvShow->getName(),
+            $tvShow->getDirectoryName(),
             self::REGEX_TVSHOW_SEASON_EPISODE
         );
 

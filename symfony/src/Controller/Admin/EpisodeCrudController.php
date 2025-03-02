@@ -3,13 +3,16 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Episode;
+use App\Entity\TvShow;
 use Cooolinho\Bundle\TVDBApiBundle\Request\Episodes;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -28,7 +31,11 @@ class EpisodeCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return parent::configureCrud($crud)
-            ->showEntityActionsInlined();
+            ->showEntityActionsInlined()
+            ->setSearchFields([
+                Episode::name,
+                Episode::belongs_to_tv_show . '.' . TvShow::name,
+            ]);
     }
 
     public function configureActions(Actions $actions): Actions
@@ -37,8 +44,6 @@ class EpisodeCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->remove(Crud::PAGE_DETAIL, Action::DELETE)
             ->remove(Crud::PAGE_INDEX, Action::DELETE)
-            ->remove(Crud::PAGE_INDEX, Action::EDIT)
-            ->remove(Crud::PAGE_DETAIL, Action::EDIT)
             ->remove(Crud::PAGE_INDEX, Action::NEW);
     }
 
@@ -46,11 +51,21 @@ class EpisodeCrudController extends AbstractCrudController
     {
         return [
             TextField::new(Episode::name)->hideOnForm(),
+            NumberField::new(Episode::theTvDbId)->onlyOnDetail(),
             NumberField::new(Episode::seasonNumber)->hideOnForm(),
             NumberField::new(Episode::number)->hideOnForm(),
-            NumberField::new(Episode::theTvDbId)->hideOnForm(),
-            BooleanField::new(Episode::isOwned)->hideOnForm(),
+            AssociationField::new(Episode::belongs_to_tv_show)->hideOnForm(),
+            BooleanField::new(Episode::isOwned),
         ];
+    }
+
+    public function configureFilters(Filters $filters): Filters
+    {
+        return parent::configureFilters($filters)
+            ->add(Episode::seasonNumber)
+            ->add(Episode::number)
+            ->add(Episode::isOwned)
+            ->add(Episode::belongs_to_tv_show);
     }
 
     public function detail(AdminContext $context): KeyValueStore|Response

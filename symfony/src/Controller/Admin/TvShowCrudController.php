@@ -59,7 +59,7 @@ class TvShowCrudController extends AbstractCrudController
             TextField::new(TvShow::name),
             TextField::new(TvShow::slug),
             IdField::new(TvShow::theTvDbId),
-            AssociationField::new(TvShow::episodes)
+            AssociationField::new(TvShow::has_many_episodes)
                 ->onlyOnDetail()
                 ->setTemplatePath('admin/tvshow/crud/field/episodes.html.twig'),
         ];
@@ -164,10 +164,6 @@ class TvShowCrudController extends AbstractCrudController
 
         if ($theTvDbId = $context->getRequest()->get(TvShow::theTvDbId)) {
             $entry->setTheTvDbId($theTvDbId);
-        }
-
-        if ($slug = $context->getRequest()->get(TvShow::slug)) {
-            $entry->setSlug($slug);
         }
 
         return $formBuilder;

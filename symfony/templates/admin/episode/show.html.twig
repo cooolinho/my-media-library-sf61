@@ -5,17 +5,17 @@
 
     <hr>
 
-    <img src="{{ episode.image }}" alt="Vorschau">
-    <h2>{{ episode.seasonNumber|str_pad_left }} x {{ episode.number|str_pad_left }}</h2>
-    <div class="container">
-        <span class="badge badge-primary">
-            Aired: {{ episode.aired }}
-        </span>
-        <span class="badge badge-primary">
-            Runtime: {{ episode.runtime }} min
-        </span>
-    </div>
-    <div class="container">
-        <p>{{ episode.overview }}</p>
+    <div class="episode-card-container">
+        <div class="episode-card">
+            <span class="episode-badge {{ entity.instance.owned ? 'badge-owned' : 'badge-not-owned' }}"></span>
+            <img class="episode-image" src="{{ episode.image }}" alt="Episodenbild">
+            <div class="episode-content">
+                <div class="episode-title">Staffel {{ episode.seasonNumber }}, Episode {{ episode.number }}: "{{ episode.name }}"</div>
+                <div class="episode-info">Laufzeit: {{ episode.runtime }} Minuten | Ausgestrahlt am: {{ episode.aired }}</div>
+                <p class="episode-description">
+                    {{ episode.overview }}
+                </p>
+            </div>
+        </div>
     </div>
 {% endblock %}

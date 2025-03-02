@@ -16,6 +16,9 @@ class Episode
     public const isOwned = 'isOwned';
     public const tvshow_id = 'tvshow';
 
+    // relations
+    public const belongs_to_tv_show = 'tvshow';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

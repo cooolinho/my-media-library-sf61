@@ -89,7 +89,7 @@ class TvShowRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAll()
+    public function findAll(): array
     {
         return $this->createQueryBuilder('t')
             ->orderBy(sprintf('t.%s', TvShow::name), 'ASC')

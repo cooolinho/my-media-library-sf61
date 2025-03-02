@@ -57,7 +57,7 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -71,6 +71,10 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
+
+    .configureWatchOptions(watchOptions => {
+        watchOptions.poll = 1000;
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();
